@@ -9,17 +9,26 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.foodiepedia.Classes.User;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.foodiepedia.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText etuser,etpass;
     String adminusername,adminpass;
-    //dikasih public static krn bakal digantikan ama database
-    public static ArrayList<User> daftaruser = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,19 +64,47 @@ public class MainActivity extends AppCompatActivity {
                 }
             }else{
                 //coba login user
-                for (User u: daftaruser) {
-                    if(u.username.equalsIgnoreCase(username)){
-                        if(u.password.equals(password)){
-                            etuser.setText("");
-                            etpass.setText("");
-                            Intent i = new Intent(this,UserHomeActivity.class);
-                            startActivity(i);
-                        }else{
-                            Toast.makeText(this,"Password salah",Toast.LENGTH_SHORT).show();
-                        }
-                        break;
+                StringRequest sreq = new StringRequest(
+                        Request.Method.POST,
+                        getString(R.string.url),
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                int iduser;
+                                String msg;
+                                try {
+                                    JSONObject job = new JSONObject(response);
+                                    iduser = job.getInt("userid");
+                                    msg = job.getString("message");
+                                    if(iduser>0){
+                                        Intent i = new Intent(MainActivity.this,UserHomeActivity.class);
+                                        startActivity(i);
+                                    }else{
+                                        Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(MainActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        }){
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> param = new HashMap<>();
+                        param.put("func","login");
+                        param.put("user",username);
+                        param.put("pass",password);
+                        return param;
                     }
-                }
+                };
+                RequestQueue rqueue = Volley.newRequestQueue(this);
+                rqueue.add(sreq);
             }
         }
     }

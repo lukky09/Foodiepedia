@@ -4,4 +4,13 @@
     <string name="regis">Register</string>
     <string name="toregis"><u>Don\'t have an account?</u></string>
     <string name="tologin"><u>Already have an account?</u></string>
+    <!--pake ctrl+/ utk comment  & uncomment-->
+    <!--url lukky-->
+    <string name="url">http://192.168.1.6/koneksidbproyek.php</string>
+    <!--url dave-->
+    <!--<string name="url">http://192.168.1.6/</string>-->
+    <!--url julius-->
+    <!--<string name="url">http://192.168.1.6/</string>-->
+    <!--url erick-->
+    <!--<string name="url">http://192.168.1.6/</string>-->
 </resources>
