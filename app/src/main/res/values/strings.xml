@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Foodiepedia</string>
+    <string name="login">Login</string>
+    <string name="regis">Register</string>
+    <string name="toregis"><u>Don\'t have an account?</u></string>
+    <string name="tologin"><u>Already have an account?</u></string>
 </resources>
