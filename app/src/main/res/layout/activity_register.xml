@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MainActivity"
+    tools:context=".Activities.RegisterActivity"
     android:padding="20dp">
 
     <TextView
-        android:id="@+id/tvlogin"
+        android:id="@+id/tvregister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login"
+        android:text="@string/regis"
         android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.116" />
 
     <EditText
-        android:id="@+id/etloginusername"
+        android:id="@+id/etregisusername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -33,52 +33,55 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvlogin"
+        app:layout_constraintTop_toBottomOf="@+id/tvregister"
         app:layout_constraintVertical_bias="0.102" />
 
     <EditText
-        android:id="@+id/etloginpassword"
+        android:id="@+id/etregispassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etloginusername"
-        app:layout_constraintVertical_bias="0.068" />
+        app:layout_constraintTop_toBottomOf="@+id/etregisusername"
+        app:layout_constraintVertical_bias="0.027" />
 
     <Button
-        android:id="@+id/btnlogin"
+        android:id="@+id/btnregis"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:onClick="attamptlogin"
+        android:layout_marginBottom="184dp"
+        android:text="@string/regis"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etloginpassword"
-        app:layout_constraintVertical_bias="0.094" />
+        app:layout_constraintTop_toBottomOf="@+id/etregispassword"
+        app:layout_constraintVertical_bias="0.256"
+        android:onClick="attemptregis"/>
 
     <TextView
-        android:id="@+id/tvtoregister"
+        android:id="@+id/tvtologin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="96dp"
         android:minHeight="48dp"
-        android:onClick="toregis"
-        android:text="@string/toregis"
+        android:onClick="tologin"
+        android:text="@string/tologin"
         android:textAllCaps="false"
         android:textColor="@color/teal_200"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnlogin"
-        app:layout_constraintVertical_bias="0.101" />
+        app:layout_constraintTop_toBottomOf="@+id/btnregis"
+        app:layout_constraintVertical_bias="0.24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
