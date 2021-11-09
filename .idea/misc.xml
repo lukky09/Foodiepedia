@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/activity_admin_home.xml" value="0.151268115942029" />
         <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/activity_user_home.xml" value="0.151268115942029" />
+        <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/menu/menu_nav_admin.xml" value="0.21302083333333333" />
+        <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/menu/menu_nav_user.xml" value="0.21302083333333333" />
       </map>
     </option>
   </component>
