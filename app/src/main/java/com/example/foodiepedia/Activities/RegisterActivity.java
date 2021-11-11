@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText etuser, etpass;
+    EditText etuser, etpass,etpassconf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +30,18 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         etuser = findViewById(R.id.etregisusername);
         etpass = findViewById(R.id.etregispassword);
+        etpassconf = findViewById(R.id.etregispasswordconf);
     }
 
     public void attemptregis(View view) {
         String username = etuser.getText().toString();
         String password = etpass.getText().toString();
-        if (username.trim().length() == 0 || password.trim().length() == 0) {
+        if (username.trim().length() == 0 || password.trim().length() == 0 || etpassconf.getText().toString().trim().length() == 0) {
             Toast.makeText(this, "Mohon diisi semua", Toast.LENGTH_SHORT).show();
+        } else if (!etpassconf.getText().toString().equals(password)) {
+            Toast.makeText(this, "Inputan password tidak sama", Toast.LENGTH_SHORT).show();
+        } else if (password.trim().length() < 8) {
+            Toast.makeText(this, "Password minimal 8 digit", Toast.LENGTH_SHORT).show();
         } else {
             StringRequest sreq = new StringRequest(
                     Request.Method.POST,
@@ -44,25 +49,25 @@ public class RegisterActivity extends AppCompatActivity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            if(response.equals("Register Berhasil!")){
+                            if (response.equals("Register Berhasil!")) {
                                 finish();
                             }
-                            Toast.makeText(RegisterActivity.this,response,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_SHORT).show();
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(RegisterActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                         }
-                    }){
+                    }) {
                 @Nullable
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String,String> param = new HashMap<>();
-                    param.put("func","regis");
-                    param.put("user",username);
-                    param.put("pass",password);
+                    Map<String, String> param = new HashMap<>();
+                    param.put("func", "regis");
+                    param.put("user", username);
+                    param.put("pass", password);
                     return param;
                 }
             };

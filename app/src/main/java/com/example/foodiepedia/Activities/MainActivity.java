@@ -27,8 +27,8 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText etuser,etpass;
-    String adminusername,adminpass;
+    EditText etuser, etpass;
+    String adminusername, adminpass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toregis(View view) {
-        Intent i = new Intent(this,RegisterActivity.class);
+        Intent i = new Intent(this, RegisterActivity.class);
         startActivity(i);
         etuser.setText("");
         etpass.setText("");
@@ -50,62 +50,59 @@ public class MainActivity extends AppCompatActivity {
     public void attamptlogin(View view) {
         String username = etuser.getText().toString();
         String password = etpass.getText().toString();
-        if(username.trim().length()==0||password.trim().length()==0){
+        if (username.trim().length() == 0 || password.trim().length() == 0) {
             //kalo ada yng g keisi
-            Toast.makeText(this,"Mohon diisi semuanya",Toast.LENGTH_SHORT).show();
-        }else {
-            if(username.equalsIgnoreCase(adminusername)){
-                //coba login admin
-                if(password.equals(adminpass)){
-                    Intent i = new Intent(this,AdminHomeActivity.class);
-                    startActivity(i);
-                }else{
-                    Toast.makeText(this,"Password salah",Toast.LENGTH_SHORT).show();
-                }
-            }else{
-                //coba login user
-                StringRequest sreq = new StringRequest(
-                        Request.Method.POST,
-                        getString(R.string.url),
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                int iduser;
-                                String msg;
-                                try {
-                                    JSONObject job = new JSONObject(response);
-                                    iduser = job.getInt("userid");
-                                    msg = job.getString("message");
-                                    if(iduser>0){
-                                        Intent i = new Intent(MainActivity.this,UserHomeActivity.class);
+            Toast.makeText(this, "Mohon diisi semuanya", Toast.LENGTH_SHORT).show();
+        } else {
+            StringRequest sreq = new StringRequest(
+                    Request.Method.POST,
+                    getString(R.string.url),
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            int iduser,isadmin;
+                            String msg;
+                            try {
+                                JSONObject job = new JSONObject(response);
+                                iduser = job.getInt("userid");
+                                msg = job.getString("message");
+                                if (iduser > 0) {
+                                    isadmin = job.getInt("isadmin");
+                                    if (isadmin == 1) {
+                                        Intent i = new Intent(MainActivity.this, AdminHomeActivity.class);
                                         startActivity(i);
-                                    }else{
-                                        Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Intent i = new Intent(MainActivity.this, UserHomeActivity.class);
+                                        startActivity(i);
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                    etuser.setText("");
+                                    etpass.setText("");
+                                } else {
+                                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                                 }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(MainActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
-                            }
-                        }){
-                    @Nullable
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String,String> param = new HashMap<>();
-                        param.put("func","login");
-                        param.put("user",username);
-                        param.put("pass",password);
-                        return param;
-                    }
-                };
-                RequestQueue rqueue = Volley.newRequestQueue(this);
-                rqueue.add(sreq);
-            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }) {
+                @Nullable
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> param = new HashMap<>();
+                    param.put("func", "login");
+                    param.put("user", username);
+                    param.put("pass", password);
+                    return param;
+                }
+            };
+            RequestQueue rqueue = Volley.newRequestQueue(this);
+            rqueue.add(sreq);
         }
     }
 }

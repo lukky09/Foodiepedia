@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context=".Activities.RegisterActivity"
-    android:padding="20dp">
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="44dp">
 
     <TextView
         android:id="@+id/tvregister"
@@ -50,20 +52,35 @@
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etregisusername"
-        app:layout_constraintVertical_bias="0.027" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/etregispasswordconf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Password Confirmation"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etregispassword"
+        app:layout_constraintVertical_bias="0.06" />
 
     <Button
         android:id="@+id/btnregis"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="184dp"
+        android:onClick="attemptregis"
         android:text="@string/regis"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etregispassword"
-        app:layout_constraintVertical_bias="0.256"
-        android:onClick="attemptregis"/>
+        app:layout_constraintVertical_bias="0.56" />
 
     <TextView
         android:id="@+id/tvtologin"
@@ -82,6 +99,6 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnregis"
-        app:layout_constraintVertical_bias="0.24" />
+        app:layout_constraintVertical_bias="0.403" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

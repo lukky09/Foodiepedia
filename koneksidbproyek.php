@@ -47,6 +47,7 @@ function login($conn)
         if ($password == $result[2]) {
             $response["userid"] = $result[0];
             $response["message"] = "Login Berhasil!";
+            $response["isadmin"] = $result[3];
         } else {
             $response["userid"] = -1;
             $response["message"] = "Password Salah";

@@ -24,14 +24,16 @@ CREATE TABLE `user` (
   `user_id` int(10) NOT NULL AUTO_INCREMENT,
   `user_username` varchar(20) NOT NULL,
   `user_password` varchar(20) NOT NULL,
+  `user_isadmin` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `user` */
 
-insert  into `user`(`user_id`,`user_username`,`user_password`) values 
-(1,'asd','asd'),
-(2,'bb','bb');
+insert  into `user`(`user_id`,`user_username`,`user_password`,`user_isadmin`) values 
+(1,'asd','asd',0),
+(2,'bb','bb',0),
+(3,'admin','admin312',1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
