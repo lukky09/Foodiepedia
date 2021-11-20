@@ -39,35 +39,33 @@
         app:layout_constraintVertical_bias="0.102" />
 
     <EditText
-        android:id="@+id/etregispassword"
+        android:id="@+id/etregisviewedname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
         android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
+        android:hint="Viewed Name"
+        android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etregisusername"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.046" />
 
     <EditText
-        android:id="@+id/etregispasswordconf"
+        android:id="@+id/etregispassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Password Confirmation"
+        android:hint="Password"
         android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etregispassword"
-        app:layout_constraintVertical_bias="0.06" />
+        app:layout_constraintTop_toBottomOf="@+id/etregisviewedname"
+        app:layout_constraintVertical_bias="0.05" />
 
     <Button
         android:id="@+id/btnregis"
@@ -80,7 +78,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etregispassword"
-        app:layout_constraintVertical_bias="0.56" />
+        app:layout_constraintVertical_bias="0.9" />
 
     <TextView
         android:id="@+id/tvtologin"
@@ -96,9 +94,23 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnregis"
-        app:layout_constraintVertical_bias="0.403" />
+        app:layout_constraintVertical_bias="0.686" />
+
+    <EditText
+        android:id="@+id/etregispasswordconf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Password Confirmation"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etregispassword"
+        app:layout_constraintVertical_bias="0.077" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

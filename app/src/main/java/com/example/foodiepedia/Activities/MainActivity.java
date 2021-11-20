@@ -57,40 +57,33 @@ public class MainActivity extends AppCompatActivity {
             StringRequest sreq = new StringRequest(
                     Request.Method.POST,
                     getString(R.string.url),
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            int iduser,isadmin;
-                            String msg;
-                            try {
-                                JSONObject job = new JSONObject(response);
-                                iduser = job.getInt("userid");
-                                msg = job.getString("message");
-                                if (iduser > 0) {
-                                    isadmin = job.getInt("isadmin");
-                                    if (isadmin == 1) {
-                                        Intent i = new Intent(MainActivity.this, AdminHomeActivity.class);
-                                        startActivity(i);
-                                    } else {
-                                        Intent i = new Intent(MainActivity.this, UserHomeActivity.class);
-                                        startActivity(i);
-                                    }
-                                    etuser.setText("");
-                                    etpass.setText("");
+                    response -> {
+                        int iduser,isadmin;
+                        String msg;
+                        try {
+                            JSONObject job = new JSONObject(response);
+                            iduser = job.getInt("userid");
+                            msg = job.getString("message");
+                            if (iduser > 0) {
+                                isadmin = job.getInt("isadmin");
+                                if (isadmin == 1) {
+                                    Intent i = new Intent(MainActivity.this, AdminHomeActivity.class);
+                                    startActivity(i);
                                 } else {
-                                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                    Intent i = new Intent(MainActivity.this, UserHomeActivity.class);
+                                    i.putExtra("id",iduser);
+                                    startActivity(i);
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                etuser.setText("");
+                                etpass.setText("");
+                            } else {
+                                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }) {
+                    error -> Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
                 @Nullable
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
