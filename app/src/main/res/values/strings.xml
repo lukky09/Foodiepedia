@@ -5,7 +5,7 @@
     <string name="toregis"><u>Don\'t have an account?</u></string>
     <string name="tologin"><u>Already have an account?</u></string>
     <!--pake ctrl+/ utk comment  & uncomment-->
-    <!--url lukky-->
+    <!--url luky-->
     <string name="url">http://192.168.1.6/koneksidbproyek.php</string>
     <!--url dave-->
     <!--<string name="url">http://192.168.1.6/</string>-->
