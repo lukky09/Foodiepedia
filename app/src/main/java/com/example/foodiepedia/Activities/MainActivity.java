@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.foodiepedia.R;
+import com.example.foodiepedia.databinding.ActivityMainBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,15 +28,18 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText etuser, etpass;
+    private ActivityMainBinding binding;
+
+    //EditText etuser, etpass;
     String adminusername, adminpass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        etuser = findViewById(R.id.etloginusername);
-        etpass = findViewById(R.id.etloginpassword);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        //etuser = findViewById(R.id.etloginusername);
+        //etpass = findViewById(R.id.etloginpassword);
         adminusername = "admin";
         adminpass = "admin";
     }
@@ -43,13 +47,13 @@ public class MainActivity extends AppCompatActivity {
     public void toregis(View view) {
         Intent i = new Intent(this, RegisterActivity.class);
         startActivity(i);
-        etuser.setText("");
-        etpass.setText("");
+        binding.etloginusername.setText("");
+        binding.etloginpassword.setText("");
     }
 
     public void attamptlogin(View view) {
-        String username = etuser.getText().toString();
-        String password = etpass.getText().toString();
+        String username = binding.etloginusername.getText().toString();
+        String password = binding.etloginpassword.getText().toString();
         if (username.trim().length() == 0 || password.trim().length() == 0) {
             //kalo ada yng g keisi
             Toast.makeText(this, "Mohon diisi semuanya", Toast.LENGTH_SHORT).show();
@@ -74,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
                                     i.putExtra("id",iduser);
                                     startActivity(i);
                                 }
-                                etuser.setText("");
-                                etpass.setText("");
+                                binding.etloginusername.setText("");
+                                binding.etloginpassword.setText("");
                             } else {
                                 Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }

@@ -1,4 +1,4 @@
-package com.example.foodiepedia.Activities;
+package com.example.foodiepedia.Activities.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;

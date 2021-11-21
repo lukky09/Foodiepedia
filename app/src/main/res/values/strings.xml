@@ -6,9 +6,9 @@
     <string name="tologin"><u>Already have an account?</u></string>
     <!--pake ctrl+/ utk comment  & uncomment-->
     <!--url lukky-->
-    <string name="url">http://192.168.1.6/koneksidbproyek.php</string>
+    <!--<string name="url">http://192.168.1.6/koneksidbproyek.php</string>-->
     <!--url dave-->
-    <!--<string name="url">http://192.168.1.6/</string>-->
+    <string name="url">http://192.168.0.8/koneksidbproyek.php</string>
     <!--url julius-->
     <!--<string name="url">http://192.168.1.6/</string>-->
     <!--url erick-->
