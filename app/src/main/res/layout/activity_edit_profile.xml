@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:context=".Activities.EditProfileActivity">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Profil"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvviewedname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Current viewed name : reeee"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/etnewviewedname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Nama Tampilan baru"
+        android:inputType="textPersonName"
+        android:minHeight="48dp" />
+
+    <CheckBox
+        android:id="@+id/cbpass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="ablepasswordchange"
+        android:text="Ganti Password" />
+
+    <LinearLayout
+        android:id="@+id/llpass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/etoldpassedit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Password lama"
+            android:inputType="textPassword"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/etnewpassedit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Password baru"
+            android:inputType="textPassword"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/etnewpassconfedit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="Konfirmasi password baru"
+            android:inputType="textPassword"
+            android:minHeight="48dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btneditprofile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="editprofile"
+        android:text="Edit Profil" />
+
+    <Button
+        android:id="@+id/btncanceledit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kembali ke beranda" />
+</LinearLayout>

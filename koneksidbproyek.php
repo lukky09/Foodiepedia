@@ -10,14 +10,20 @@ if (!$conn) {
 }
 
 //buat ngeset function
-$func = $_POST["func"];
-if ($func == "regis") {
-    register($conn);
-}elseif ($func == "login") {
-    login($conn);
-}elseif ($func == "getuser") {
-    getuser($conn);
-}
+switch ($_POST["func"]) {
+    case "regis":
+        register($conn);
+      break;
+    case "login":
+        login($conn);
+      break;
+    case "getuser":
+        getuser($conn);
+      break;
+    case "updateuser":
+        updateuser($conn);
+      break;
+  } 
 
 function register($conn)
 {
@@ -71,5 +77,22 @@ function getuser($conn)
     $response["nama"] = $result[2];
     $response["pass"] = $result[3];
     echo json_encode($response);
+}
 
+function updateuser($conn)
+{
+    $id = $_POST["userid"];
+    $nama = $_POST["name"];
+    $succ = 0;
+    if(mysqli_query($conn, "UPDATE user SET user_viewedname='$nama' WHERE user_id=$id")){
+        $succ+=1;
+    }
+    if($_POST["ispass"] == "y"){
+        $pass = $_POST["pass"];
+        if(mysqli_query($conn, "UPDATE user SET user_password='$pass' WHERE user_id=$id")){
+            $succ+=1;
+        }
+    }
+    $response["code"] = $succ;
+    echo json_encode($response);
 }
