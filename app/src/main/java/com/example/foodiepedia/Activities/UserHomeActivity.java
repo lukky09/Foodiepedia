@@ -3,9 +3,12 @@ package com.example.foodiepedia.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -17,7 +20,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.foodiepedia.Data.User;
+import com.example.foodiepedia.Fragments.ResepFragment;
 import com.example.foodiepedia.R;
+import com.example.foodiepedia.databinding.ActivityUserHomeBinding;
+import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,13 +34,42 @@ import java.util.Map;
 public class UserHomeActivity extends AppCompatActivity {
 
     User currentuser;
+    ActivityUserHomeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_home);
 
+        binding = ActivityUserHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         getuser(getIntent().getIntExtra("id", -1));
+        binding.navBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                Fragment fragment = null;
+                switch (id) {
+                    case R.id.menuHome:
+                        break;
+                    case R.id.menuListResep:
+                        fragment = ResepFragment.newInstance(currentuser);
+                        break;
+                    case R.id.menuListUser:
+                        break;
+                    default:
+                        finish();
+                }
+                try {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(binding.frameLayout.getId(), fragment)
+                            .commit();
+                }catch (Exception e){
+                    Log.e("UserHomeActivity", e.getMessage());
+                }
+                return true;
+            }
+        });
+        binding.navBar.setSelectedItemId(R.id.menuHome);
     }
 
     void getuser(int userid) {
@@ -43,7 +78,7 @@ public class UserHomeActivity extends AppCompatActivity {
                     try {
                         JSONObject job = new JSONObject(response);
                         currentuser = new User(getIntent().getIntExtra("id", -1), job.getString("nama"), job.getString("pass"));
-                        ((TextView) findViewById(R.id.textView2)).setText("Welcome, " + currentuser.getUser_name());
+//                        binding.textView2.setText("Welcome, " + currentuser.getUser_name());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -69,11 +104,15 @@ public class UserHomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent i;
         switch (item.getItemId()) {
             case R.id.itemuseradd:
+                i = new Intent(this,TambahResepActivity.class);
+                i.putExtra("user",currentuser);
+                startActivityForResult(i,0);
                 break;
             case R.id.itemuseredit:
-                Intent i = new Intent(this, EditProfileActivity.class);
+                i = new Intent(this, EditProfileActivity.class);
                 i.putExtra("user", currentuser);
                 startActivityForResult(i, 0);
                 break;

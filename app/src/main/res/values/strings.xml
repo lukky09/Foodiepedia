@@ -4,13 +4,15 @@
     <string name="regis">Register</string>
     <string name="toregis"><u>Belum punya akun?</u></string>
     <string name="tologin"><u>Sudah Punya akun?</u></string>
+    <string name="ResepFragment">Resepku</string>
+    <string name="TambahResep">Tambah Resep</string>
     <!--pake ctrl+/ utk comment  & uncomment-->
     <!--url lukky-->
-    <string name="url">http://192.168.1.6/koneksidbproyek.php</string>
+    <!--    <string name="url">http://192.168.1.6/koneksidbproyek.php</string>-->
     <!--url dave-->
     <!--<string name="url">http://192.168.0.8/koneksidbproyek.php</string>-->
     <!--url julius-->
     <!--<string name="url">http://192.168.1.6/</string>-->
     <!--url erick-->
-    <!--<string name="url">http://192.168.1.6/</string>-->
+    <string name="url">http://192.168.0.13/koneksidbproyek.php</string>
 </resources>

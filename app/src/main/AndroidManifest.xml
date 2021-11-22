@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Foodiepedia"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Activities.TambahResepActivity"
+            android:exported="true" />
+        <activity
             android:name=".Activities.EditProfileActivity"
             android:exported="false" />
         <activity
