@@ -86,8 +86,6 @@ public class UserHomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 1){
-            getuser(currentuser.getUser_id());
-        }
+        getuser(currentuser.getUser_id());
     }
 }

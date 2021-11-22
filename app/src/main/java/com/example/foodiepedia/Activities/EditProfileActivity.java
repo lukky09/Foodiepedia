@@ -57,7 +57,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     public void ablepasswordchange(View view) {
         checked = ((CheckBox)view).isChecked();
-        Toast.makeText(this, checked+"", Toast.LENGTH_SHORT).show();
         for (int i = 0; i < binding.llpass.getChildCount(); i++) {
             EditText e = (EditText) binding.llpass.getChildAt(i);
             e.setClickable(checked);
@@ -75,7 +74,9 @@ public class EditProfileActivity extends AppCompatActivity {
             Toast.makeText(this, "Belum diisi semua vroh", Toast.LENGTH_SHORT).show();
         } else if(checked && !oldpass.equals(currentuser.getPassword())){
             Toast.makeText(this, "Password lama salah", Toast.LENGTH_SHORT).show();
-        }else if(checked && newpass.equals(oldpass)){
+        }else if(checked && newpass.length()<8){
+            Toast.makeText(this, "Password minimal 8 digit", Toast.LENGTH_SHORT).show();
+        } else if(checked && newpass.equals(oldpass)){
             Toast.makeText(this, "Password baru tidak boleh sama dengan password lama", Toast.LENGTH_SHORT).show();
         }else if(checked && newpass.equals(oldpass)){
             Toast.makeText(this, "Konfirmasi password baru salah", Toast.LENGTH_SHORT).show();
