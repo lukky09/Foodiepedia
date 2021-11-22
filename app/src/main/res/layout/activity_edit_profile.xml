@@ -32,7 +32,8 @@
         android:ems="10"
         android:hint="Nama Tampilan baru"
         android:inputType="textPersonName"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:maxLength="20"/>
 
     <CheckBox
         android:id="@+id/cbpass"
