@@ -17,11 +17,10 @@
         android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.116" />
+        app:layout_constraintVertical_bias="0.059" />
 
     <EditText
         android:id="@+id/etregisusername"
@@ -71,20 +70,19 @@
         android:id="@+id/btnregis"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="184dp"
         android:onClick="attemptregis"
         android:text="@string/regis"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.825"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etregispassword"
-        app:layout_constraintVertical_bias="0.9" />
+        app:layout_constraintTop_toBottomOf="@+id/etregispasswordconf"
+        app:layout_constraintVertical_bias="0.126" />
 
     <TextView
         android:id="@+id/tvtologin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="96dp"
         android:minHeight="48dp"
         android:onClick="tologin"
         android:text="@string/tologin"
@@ -94,9 +92,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnregis"
-        app:layout_constraintVertical_bias="0.686" />
+        app:layout_constraintVertical_bias="0.205" />
 
     <EditText
         android:id="@+id/etregispasswordconf"
