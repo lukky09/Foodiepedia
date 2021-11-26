@@ -13,20 +13,26 @@ if (!$conn) {
 switch ($_POST["func"]) {
     case "regis":
         register($conn);
-      break;
+        break;
     case "login":
         login($conn);
-      break;
+        break;
     case "getuser":
         getuser($conn);
-      break;
+        break;
     case "updateuser":
         updateuser($conn);
-      break;
+        break;
     case "getapprovedings":
         getingredients($conn);
-      break;
-  } 
+        break;
+    case "addresep":
+        addrecipe($conn);
+        break;
+    case "addresepings":
+        addingtorecipe($conn);
+        break;
+}
 
 function register($conn)
 {
@@ -69,7 +75,6 @@ function login($conn)
         $response["message"] = "User Tidak Ditemukan";
     }
     echo json_encode($response);
-
 }
 
 function getuser($conn)
@@ -87,13 +92,13 @@ function updateuser($conn)
     $id = $_POST["userid"];
     $nama = $_POST["name"];
     $succ = 0;
-    if(mysqli_query($conn, "UPDATE user SET user_viewedname='$nama' WHERE user_id=$id")){
-        $succ+=1;
+    if (mysqli_query($conn, "UPDATE user SET user_viewedname='$nama' WHERE user_id=$id")) {
+        $succ += 1;
     }
-    if($_POST["ispass"] == "y"){
+    if ($_POST["ispass"] == "y") {
         $pass = $_POST["pass"];
-        if(mysqli_query($conn, "UPDATE user SET user_password='$pass' WHERE user_id=$id")){
-            $succ+=1;
+        if (mysqli_query($conn, "UPDATE user SET user_password='$pass' WHERE user_id=$id")) {
+            $succ += 1;
         }
     }
     $response["code"] = $succ;
@@ -107,4 +112,22 @@ function getingredients($conn)
         $bahan[] = $row[1];
     }
     echo json_encode($bahan);
+}
+
+function addrecipe($conn)
+{
+    $id = $_POST["id"];
+    $nm = $_POST["nama"];
+    mysqli_query($conn, "INSERT INTO reseps (resep_nama,resep_user_id,resep_isapproved) VALUES ('$nm',$id,1)");
+    echo mysqli_fetch_row(mysqli_query($conn, "SELECT * FROM reseps WHERE resep_nama = '$nm'"))[0];
+}
+
+function addingtorecipe($conn)
+{
+    $id = $_POST["id"];
+    $nm = $_POST["nama"];
+    $jum = $_POST["jum"];
+    $idbahan = mysqli_fetch_row(mysqli_query($conn, "SELECT * FROM bahans WHERE bahan_nama = '$nm'"))[0];
+    mysqli_query($conn, "INSERT INTO bahanresep VALUES ($idbahan,$id,'$jum')");
+    echo mysqli_fetch_row(mysqli_query($conn, "SELECT count(*) FROM bahanresep WHERE resep_id = $id"))[0];
 }

@@ -125,6 +125,10 @@ public class UserHomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        getuser(currentuser.getUser_id());
+        if(resultCode == 111){
+            Toast.makeText(this, "Resep sudah ditambahkan :D", Toast.LENGTH_SHORT).show();
+        }else {
+            getuser(currentuser.getUser_id());
+        }
     }
 }
