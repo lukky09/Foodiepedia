@@ -5,13 +5,18 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.foodiepedia.Adapter.UserListAdapter;
+import com.example.foodiepedia.Data.User;
 import com.example.foodiepedia.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +26,9 @@ import com.example.foodiepedia.R;
 public class AdminUserListFragment extends Fragment {
 
     RecyclerView rvUsers;
+
+//    REQUEST ALL USERS DARI DATABASE
+    ArrayList<User> users = new ArrayList<>();
 
     public AdminUserListFragment() {
         // Required empty public constructor
@@ -49,6 +57,16 @@ public class AdminUserListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvUsers = view.findViewById(R.id.rvUsers);
+        rvUsers.setHasFixedSize(true);
+        rvUsers.setLayoutManager(new LinearLayoutManager(getActivity()));
+        UserListAdapter adapter = new UserListAdapter(users);
+        rvUsers.setAdapter(adapter);
 
+        adapter.setOnItemClickCallback(new UserListAdapter.OnItemClickCallback() {
+            @Override
+            public void onItemClicked(String username) {
+//                BAN/UNBAN USER
+            }
+        });
     }
 }
