@@ -32,6 +32,9 @@ switch ($_POST["func"]) {
     case "addresepings":
         addingtorecipe($conn);
         break;
+    case "getresep"
+        getresep($conn);
+        break;
 }
 
 function register($conn)
@@ -130,4 +133,30 @@ function addingtorecipe($conn)
     $idbahan = mysqli_fetch_row(mysqli_query($conn, "SELECT * FROM bahans WHERE bahan_nama = '$nm'"))[0];
     mysqli_query($conn, "INSERT INTO bahanresep VALUES ($idbahan,$id,'$jum')");
     echo mysqli_fetch_row(mysqli_query($conn, "SELECT count(*) FROM bahanresep WHERE resep_id = $id"))[0];
+}
+
+function getresep($conn)
+{
+    $sql = "SELECT * FROM reseps";
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0){
+        $data = array();
+        $reseps = array();
+        $ctr = 0;
+        while ($row = mysqli_fetch_array($result)) {
+            $data["resep_id"] = $row["resep_id"];
+            $data["resep_nama"] = $row["resep_nama"];
+            $data["resep_isapproved"] = $row["resep_isapproved"];
+            $reseps[$ctr] = $data;
+            $ctr++;
+        }
+        mysqli_free_result($result);
+        $response["code"] = 1;
+        $response["message"] = "Get Data Successful";
+        $response["dataresep"] = $reseps;
+    }
+    else{
+        $response["code"] = -1;
+        $response["message"] = "Tidak Ada Request Resep";
+    }
 }
