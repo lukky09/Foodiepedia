@@ -1,6 +1,6 @@
 /*
-SQLyog Community v13.1.7 (64 bit)
-MySQL - 10.4.20-MariaDB : Database - db_foodiepedia
+SQLyog Ultimate v13.1.1 (64 bit)
+MySQL - 10.4.21-MariaDB : Database - db_foodiepedia
 *********************************************************************
 */
 
@@ -69,17 +69,18 @@ CREATE TABLE `user` (
   `user_viewedname` varchar(20) NOT NULL,
   `user_password` varchar(20) NOT NULL,
   `user_isadmin` tinyint(1) NOT NULL DEFAULT 0,
+  `user_isbanned` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0 = unbanned, 1 = banned',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `user` */
 
-insert  into `user`(`user_id`,`user_username`,`user_viewedname`,`user_password`,`user_isadmin`) values 
-(1,'a','Coba','a',0),
-(2,'bb','','bb',0),
-(3,'admin','','admin312',1),
-(4,'boedi','BoediGakTerlaluManta','123qweasd',0),
-(5,'bca','BCA','123456789',0);
+insert  into `user`(`user_id`,`user_username`,`user_viewedname`,`user_password`,`user_isadmin`,`user_isbanned`) values 
+(1,'a','Coba','a',0,0),
+(2,'bb','','bb',0,0),
+(3,'admin','','admin312',1,0),
+(4,'boedi','BoediGakTerlaluManta','123qweasd',0,0),
+(5,'bca','BCA','123456789',0,0);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
