@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.foodiepedia.Fragments.AdminResepListFragment;
 import com.example.foodiepedia.Fragments.ResepFragment;
 import com.example.foodiepedia.R;
 import com.example.foodiepedia.databinding.ActivityAdminHomeBinding;
@@ -29,6 +30,7 @@ public class AdminHomeActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (item.getItemId()) {
                     case R.id.menuAdminResep:
+                        fragment = AdminResepListFragment.newInstance("Resep");
                         break;
                     case R.id.menuAdminBahan:
 
