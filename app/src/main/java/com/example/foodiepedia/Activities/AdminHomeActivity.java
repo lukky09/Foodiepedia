@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.foodiepedia.Fragments.AdminResepListFragment;
+import com.example.foodiepedia.Fragments.AdminUserListFragment;
 import com.example.foodiepedia.Fragments.ResepFragment;
 import com.example.foodiepedia.R;
 import com.example.foodiepedia.databinding.ActivityAdminHomeBinding;
@@ -36,6 +37,7 @@ public class AdminHomeActivity extends AppCompatActivity {
 
                         break;
                     case R.id.menuAdminUsers:
+                        fragment = AdminUserListFragment.newInstance();
                         break;
                     default:
                         finish();
