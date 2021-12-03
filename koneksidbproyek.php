@@ -38,7 +38,7 @@ switch ($_POST["func"]) {
     case "addresepings":
         addingtorecipe($conn);
         break;
-    case "getresep"
+    case "getresep":
         getresep($conn);
         break;
 }
@@ -109,7 +109,7 @@ function getalluser($conn)
             $data["nama"] = $row["user_viewedname"];
             $data["pass"] = $row["user_password"];
             $data["is_banned"] = $row["user_isbanned"];
-            $arrmhs[$ctr] = $data;
+            $arruser[$ctr] = $data;
             $ctr++;
         }
         mysqli_free_result($result);
@@ -123,11 +123,11 @@ function getalluser($conn)
     echo json_encode($response);
 }
 
-public function setban($conn)
+function setban($conn)
 {
     $id = $_POST["userid"];
     $ban = $_POST["isbanned"];
-    if($ban){
+    if($ban == 0){
         mysqli_query($conn, "UPDATE user SET user_isbanned=1 WHERE user_id=$id");
         $response["message"] = "Ban Berhasil";
     } else {

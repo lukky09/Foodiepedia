@@ -63,6 +63,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
             btnBan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(user.getUser_isbanned() == 0) btnBan.setText("UNBAN");
+                    else if(user.getUser_isbanned() == 1) btnBan.setText("BAN");
                     onItemClickCallback.onItemClicked(user.getUser_isbanned(), user.getUser_id());
                 }
             });
