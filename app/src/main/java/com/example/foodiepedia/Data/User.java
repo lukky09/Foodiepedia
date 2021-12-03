@@ -7,17 +7,20 @@ public class User implements Parcelable {
     private int user_id;
     private String user_name;
     private String password;
+    private int user_isbanned;
 
     public User(int user_id, String user_name, String password) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.password = password;
+        this.user_isbanned = 0;
     }
 
     protected User(Parcel in) {
         user_id = in.readInt();
         user_name = in.readString();
         password = in.readString();
+        user_isbanned = in.readInt();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -56,6 +59,14 @@ public class User implements Parcelable {
         this.password = password;
     }
 
+    public int getUser_isbanned() {
+        return user_isbanned;
+    }
+
+    public void setUser_isbanned(int user_isbanned) {
+        this.user_isbanned = user_isbanned;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -66,5 +77,6 @@ public class User implements Parcelable {
         parcel.writeInt(user_id);
         parcel.writeString(user_name);
         parcel.writeString(password);
+        parcel.writeInt(user_isbanned);
     }
 }

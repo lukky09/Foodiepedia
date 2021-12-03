@@ -20,6 +20,12 @@ switch ($_POST["func"]) {
     case "getuser":
         getuser($conn);
         break;
+    case "getalluser":
+        getalluser($conn);
+        break;
+    case "setban":
+        setban($conn);
+        break;
     case "updateuser":
         updateuser($conn);
         break;
@@ -87,6 +93,47 @@ function getuser($conn)
     $result = mysqli_fetch_row(mysqli_query($conn, $sql));
     $response["nama"] = $result[2];
     $response["pass"] = $result[3];
+    echo json_encode($response);
+}
+
+function getalluser($conn)
+{
+    $sql = "SELECT * FROM user WHERE user_isadmin = 0";
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        $data = array();
+        $arruser = array();
+        $ctr = 0;
+        while($row = mysqli_fetch_array($result)) {
+            $data["id"] = $row["user_id"];
+            $data["nama"] = $row["user_viewedname"];
+            $data["pass"] = $row["user_password"];
+            $data["is_banned"] = $row["user_isbanned"];
+            $arrmhs[$ctr] = $data;
+            $ctr++;
+        }
+        mysqli_free_result($result);
+        $response["code"] = 1;
+        $response["message"] = "Get Data Successful";
+        $response["datauser"] = $arruser;
+    } else {
+        $response["code"] = -3;
+        $response["message"] = "No Data";
+    }
+    echo json_encode($response);
+}
+
+public function setban($conn)
+{
+    $id = $_POST["userid"];
+    $ban = $_POST["isbanned"];
+    if($ban){
+        mysqli_query($conn, "UPDATE user SET user_isbanned=1 WHERE user_id=$id");
+        $response["message"] = "Ban Berhasil";
+    } else {
+        mysqli_query($conn, "UPDATE user SET user_isbanned=0 WHERE user_id=$id");
+        $response["message"] = "Unban Berhasil";
+    }
     echo json_encode($response);
 }
 
