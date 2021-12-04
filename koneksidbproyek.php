@@ -38,6 +38,9 @@ switch ($_POST["func"]) {
     case "addresepings":
         addingtorecipe($conn);
         break;
+    case "adding":
+        addingredient($conn);
+        break;
     case "getresep":
         getresep($conn);
         break;
@@ -104,7 +107,7 @@ function getalluser($conn)
         $data = array();
         $arruser = array();
         $ctr = 0;
-        while($row = mysqli_fetch_array($result)) {
+        while ($row = mysqli_fetch_array($result)) {
             $data["id"] = $row["user_id"];
             $data["nama"] = $row["user_viewedname"];
             $data["pass"] = $row["user_password"];
@@ -127,7 +130,7 @@ function setban($conn)
 {
     $id = $_POST["userid"];
     $ban = $_POST["isbanned"];
-    if($ban == 0){
+    if ($ban == 0) {
         mysqli_query($conn, "UPDATE user SET user_isbanned=1 WHERE user_id=$id");
         $response["message"] = "Ban Berhasil";
     } else {
@@ -157,9 +160,11 @@ function updateuser($conn)
 
 function getingredients($conn)
 {
-    $result = mysqli_query($conn, "SELECT * FROM bahans WHERE bahan_isapproved = 1 ORDER BY bahan_nama ASC");
+    $result = mysqli_query($conn, "SELECT * FROM bahans ORDER BY bahan_nama ASC");
     while ($row = mysqli_fetch_row($result)) {
-        $bahan[] = $row[1];
+        $isi["nama"] = $row[1];
+        $isi["app"] = $row[2];
+        $bahan[] = $isi;
     }
     echo json_encode($bahan);
 }
@@ -168,8 +173,16 @@ function addrecipe($conn)
 {
     $id = $_POST["id"];
     $nm = $_POST["nama"];
-    mysqli_query($conn, "INSERT INTO reseps (resep_nama,resep_user_id,resep_isapproved) VALUES ('$nm',$id,1)");
+    $desc = $_POST["desc"];
+    $ada = $_POST["ada"];
+    mysqli_query($conn, "INSERT INTO reseps (resep_nama,user_id,resep_desc,resep_isapproved) VALUES ('$nm',$id,'$desc',$ada)");
     echo mysqli_fetch_row(mysqli_query($conn, "SELECT * FROM reseps WHERE resep_nama = '$nm'"))[0];
+}
+
+function addingredient($conn)
+{
+    $nm = $_POST["nama"];
+    mysqli_query($conn, "INSERT INTO bahans (bahan_nama,bahan_isapproved) VALUES ('$nm',0)");
 }
 
 function addingtorecipe($conn)
@@ -186,7 +199,7 @@ function getresep($conn)
 {
     $sql = "SELECT * FROM reseps";
     $result = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result) > 0){
+    if (mysqli_num_rows($result) > 0) {
         $data = array();
         $reseps = array();
         $ctr = 0;
@@ -201,8 +214,7 @@ function getresep($conn)
         $response["code"] = 1;
         $response["message"] = "Get Data Successful";
         $response["dataresep"] = $reseps;
-    }
-    else{
+    } else {
         $response["code"] = -1;
         $response["message"] = "Tidak Ada Request Resep";
     }

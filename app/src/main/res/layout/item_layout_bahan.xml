@@ -4,8 +4,8 @@
     android:id="@+id/llbahan"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="5dp">
 
     <ImageButton
         android:id="@+id/imageButton"

@@ -42,6 +42,7 @@ public class TambahResepActivity extends AppCompatActivity {
     ActivityTambahResepBinding binding;
     ArrayList<LinearLayout> daftarll;
     ArrayList<String> daftarbahan;
+    ArrayList<Boolean> daftarudahada;
     User currentuser;
 
     @Override
@@ -51,6 +52,7 @@ public class TambahResepActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         daftarll = new ArrayList<>();
         daftarbahan = new ArrayList<>();
+        daftarudahada = new ArrayList<>();
         currentuser = getIntent().getParcelableExtra("user");
 
         ActionBar actionBar = getSupportActionBar();
@@ -72,8 +74,14 @@ public class TambahResepActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 1) {
             LinearLayout newll = (LinearLayout) getLayoutInflater().inflate(R.layout.item_layout_bahan, null);
-            ((TextView) newll.getChildAt(1)).setText(data.getStringExtra("bhn"));
+            String eh = "";
+            if(!data.getBooleanExtra("ada",false)){
+                Toast.makeText(this, "Bila semua bahan anda sudah diapprove semua maka resep anda akan tampil secara otomatis", Toast.LENGTH_SHORT).show();
+                eh=" (!)";
+            }
+            ((TextView) newll.getChildAt(1)).setText(data.getStringExtra("bhn")+eh);
             daftarbahan.add(data.getStringExtra("bhn"));
+            daftarudahada.add(data.getBooleanExtra("ada",false));
             ((ImageView) newll.getChildAt(0)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -81,6 +89,7 @@ public class TambahResepActivity extends AppCompatActivity {
                         if (daftarll.get(i).getChildAt(0) == view) {
                             daftarll.remove(i);
                             daftarbahan.remove(i);
+                            daftarudahada.remove(i);
                             binding.llbahan.removeViewAt(i);
                             if (binding.llbahan.getChildCount() == 0) {
                                 TextView tv = new TextView(TambahResepActivity.this);
@@ -120,15 +129,22 @@ public class TambahResepActivity extends AppCompatActivity {
                     break;
                 }
             }
-            if (!full || binding.etnamaresep.getText().toString().trim().length() == 0) {
+            if (!full || binding.etnamaresep.getText().toString().trim().length() == 0 || binding.etdeskripsi.getText().toString().trim().length() == 0) {
                 Toast.makeText(this, "Mohon diisi semuanya", Toast.LENGTH_SHORT).show();
             } else {
+                int ver = 1;
+                for (boolean b:daftarudahada) {
+                    if(!b) {
+                        ver = 0;
+                        break;
+                    }
+                }
+                int finalVer = ver;
                 StringRequest sreq = new StringRequest(
                         Request.Method.POST,
                         getString(R.string.url),
                         response -> {
                             int foodid = Integer.parseInt(response);
-
                             for (int i = 0; i < daftarbahan.size(); i++) {
                                 int finalI = i;
                                 StringRequest sreq2 = new StringRequest(Request.Method.POST,
@@ -161,7 +177,9 @@ public class TambahResepActivity extends AppCompatActivity {
                         Map<String, String> param = new HashMap<>();
                         param.put("func", "addresep");
                         param.put("id", currentuser.getUser_id()+"");
+                        param.put("desc", binding.etdeskripsi.getText().toString().trim());
                         param.put("nama", binding.etnamaresep.getText().toString().trim());
+                        param.put("ada",  finalVer +"");
                         return param;
                     }
                 };

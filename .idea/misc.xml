@@ -50,7 +50,10 @@
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/activity_user_home.xml" value="0.25181159420289856" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/item_layout_bahan.xml" value="0.24547101449275363" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/item_layout_resep.xml" value="0.24547101449275363" />
+        <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/menu/menu_admin_nav.xml" value="0.36666666666666664" />
+        <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/menu/menu_req_bahan.xml" value="0.36666666666666664" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/menu/menu_user.xml" value="0.36666666666666664" />
+        <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/menu/menu_user_nav.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>
