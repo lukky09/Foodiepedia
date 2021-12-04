@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v13.1.1 (64 bit)
-MySQL - 10.4.21-MariaDB : Database - db_foodiepedia
+SQLyog Community v13.1.7 (64 bit)
+MySQL - 10.4.20-MariaDB : Database - db_foodiepedia
 *********************************************************************
 */
 
@@ -22,7 +22,8 @@ DROP TABLE IF EXISTS `bahanresep`;
 
 CREATE TABLE `bahanresep` (
   `bahan_id` int(20) NOT NULL,
-  `resep_id` int(20) NOT NULL
+  `resep_id` int(20) NOT NULL,
+  `qty` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `bahanresep` */
@@ -36,7 +37,7 @@ CREATE TABLE `bahans` (
   `bahan_nama` varchar(20) NOT NULL,
   `bahan_isapproved` smallint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`bahan_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `bahans` */
 
@@ -44,7 +45,10 @@ insert  into `bahans`(`bahan_id`,`bahan_nama`,`bahan_isapproved`) values
 (1,'Wortel',1),
 (2,'Kubis',1),
 (3,'Rinso',1),
-(4,'Kentang',1);
+(4,'Kentang',1),
+(5,'Permen',0),
+(6,'Sprite',0),
+(7,'Pepsi',0);
 
 /*Table structure for table `reseps` */
 
@@ -52,7 +56,9 @@ DROP TABLE IF EXISTS `reseps`;
 
 CREATE TABLE `reseps` (
   `resep_id` int(20) NOT NULL AUTO_INCREMENT,
+  `user_id` int(20) NOT NULL,
   `resep_nama` varchar(20) NOT NULL,
+  `resep_desc` varchar(300) NOT NULL,
   `resep_isapproved` smallint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`resep_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
