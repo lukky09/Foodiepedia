@@ -177,7 +177,7 @@ public class TambahResepActivity extends AppCompatActivity {
                         Map<String, String> param = new HashMap<>();
                         param.put("func", "addresep");
                         param.put("id", currentuser.getUser_id()+"");
-                        param.put("desc", binding.etdeskripsi.getText().toString().trim());
+                        param.put("desc", binding.etdeskripsi.getText().toString().replaceAll("\\n", "<br />"));
                         param.put("nama", binding.etnamaresep.getText().toString().trim());
                         param.put("ada",  finalVer +"");
                         return param;

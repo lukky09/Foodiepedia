@@ -21,6 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.foodiepedia.Data.User;
 import com.example.foodiepedia.Fragments.ResepFragment;
+import com.example.foodiepedia.Fragments.UserHomeFragment;
 import com.example.foodiepedia.R;
 import com.example.foodiepedia.databinding.ActivityUserHomeBinding;
 import com.google.android.material.navigation.NavigationBarView;
@@ -50,6 +51,7 @@ public class UserHomeActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (id) {
                     case R.id.menuHome:
+                        fragment = UserHomeFragment.newInstance(currentuser);
                         break;
                     case R.id.menuListResep:
                         fragment = ResepFragment.newInstance(currentuser);
