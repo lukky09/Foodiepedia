@@ -16,6 +16,15 @@ import java.util.ArrayList;
 public class RequestRecipeAdapter extends RecyclerView.Adapter<RequestRecipeAdapter.ViewHolder> {
 
     ArrayList<Resep> listresep;
+    private onItemClickCallback onItemClickCallback;
+
+    public RequestRecipeAdapter(ArrayList<Resep> listresep) {
+        this.listresep = listresep;
+    }
+
+    public void setOnItemClickCallback(RequestRecipeAdapter.onItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
+    }
 
     @NonNull
     @Override
@@ -28,7 +37,12 @@ public class RequestRecipeAdapter extends RecyclerView.Adapter<RequestRecipeAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Resep resep = listresep.get(position);
         holder.bind(resep);
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickCallback.DeleteResep(resep);
+            }
+        });
     }
 
     @Override
@@ -45,23 +59,11 @@ public class RequestRecipeAdapter extends RecyclerView.Adapter<RequestRecipeAdap
 
         void bind(Resep resep) {
             binding.textnamaresep.setText(resep.getNama_resep());
-            binding.visibleparam.setVisibility(View.INVISIBLE);
-            switch (resep.getStatusresep()){
-                case (0):
-                    binding.textstatusresep.setText("Waiting");
-                    binding.visibleparam.setVisibility(View.VISIBLE);
-                    break;
-                case (1):
-                    binding.textstatusresep.setText("Accepted");
-                    break;
-                default:
-                    binding.textstatusresep.setText("Declined");
-                    break;
-            }
+            binding.textresepuser.setText(resep.getChef_resep());
         }
     }
 
     public interface onItemClickCallback{
-        void AcceptResep(Resep resep);
+        void DeleteResep(Resep resep);
     }
 }

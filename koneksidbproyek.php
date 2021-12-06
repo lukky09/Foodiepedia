@@ -44,6 +44,9 @@ switch ($_POST["func"]) {
     case "getresep":
         getresep($conn);
         break;
+    case "deleteresep":
+        deleteresep($conn);
+        break;
 }
 
 function register($conn)
@@ -197,7 +200,7 @@ function addingtorecipe($conn)
 
 function getresep($conn)
 {
-    $sql = "SELECT * FROM reseps, user";
+    $sql = "SELECT * FROM reseps r, USER u WHERE u.user_id = r.user_id";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         $data = array();
@@ -206,6 +209,9 @@ function getresep($conn)
         while ($row = mysqli_fetch_array($result)) {
             $data["resep_id"] = $row["resep_id"];
             $data["resep_nama"] = $row["resep_nama"];
+            $data["resep_desk"] = $row["resep_desc"];
+            $data["chef_name"] = $row["user_viewedname"];
+            $data["chef_id"] = $row["user_id"];
             $data["resep_isapproved"] = $row["resep_isapproved"];
             $reseps[$ctr] = $data;
             $ctr++;
@@ -218,4 +224,21 @@ function getresep($conn)
         $response["code"] = -1;
         $response["message"] = "Tidak Ada Request Resep";
     }
+    echo json_encode($response);
+}
+
+function deleteresep($conn)
+{
+    $id = $_POST["id"];
+    $sql = "DELETE from reseps WHERE resep_id = $id";
+    $result = mysqli_query($conn, $sql);
+    if ($result){
+        $response["code"] = 1;
+        $response["message"] = "Resep Berhasil Dihapus";
+    }
+    else{
+        $response["code"] = -1;
+        $response["message"] = "Resep Gagal Dihapus";
+    }
+    echo json_encode($response);
 }

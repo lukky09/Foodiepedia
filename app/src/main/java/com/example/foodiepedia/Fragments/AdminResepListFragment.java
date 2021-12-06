@@ -11,9 +11,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.foodiepedia.Adapter.RequestRecipeAdapter;
+import com.example.foodiepedia.Adapter.RequestRecipeAdapter;
+import com.example.foodiepedia.Data.Resep;
 import com.example.foodiepedia.R;
 import com.example.foodiepedia.databinding.FragmentAdminResepListBinding;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +48,7 @@ public class AdminResepListFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String jenis;
+    private ArrayList<Resep> listresep;
 
     public static AdminResepListFragment newInstance(String jenis) {
         AdminResepListFragment fragment = new AdminResepListFragment();
@@ -61,12 +79,74 @@ public class AdminResepListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+        listresep = new ArrayList<>();
+        buatrecyclerview(listresep);
+        getallrequest();
     }
 
-    public void buatrecyclerview(){
+    public void buatrecyclerview(ArrayList<Resep> listresep){
         binding.rvrecipe.setHasFixedSize(true);
         binding.rvrecipe.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new RequestRecipeAdapter(listresep);
+        binding.rvrecipe.setAdapter(adapter);
 
+        /*adapter.setOnItemClickCallback(new RequestRecipeAdapter.onItemClickCallback() {
+            @Override
+            public void DeleteResep(Resep resep) {
+                StringRequest stringRequest = new StringRequest()
+            }
+        });*/
+    }
+
+    public void getallrequest(){
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                getResources().getString(R.string.url),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //System.out.println(response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            int code = jsonObject.getInt("code");
+                            if (code == 1){
+                                JSONArray jsonArray = jsonObject.getJSONArray("dataresep");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject objresep = jsonArray.getJSONObject(i);
+                                    Resep r = new Resep(
+                                        objresep.getInt("resep_id"),
+                                        objresep.getInt("chef_id"),
+                                        objresep.getString("resep_nama"),
+                                        objresep.getString("resep_desk"),
+                                        objresep.getString("chef_name"),
+                                        objresep.getInt("resep_isapproved")
+                                    );
+                                    listresep.add(r);
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("func", "getresep");
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(stringRequest);
     }
 }
