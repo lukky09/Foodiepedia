@@ -46,6 +46,7 @@ public class UserRecipeAdapter extends RecyclerView.Adapter<UserRecipeAdapter.in
     public void onBindViewHolder(@NonNull iniAdapter holder, int position) {
         Resep r = reseps.get(position);
         holder.bindReseptoView(r);
+        holder.itemView.setOnClickListener(view -> callback.onItemClicked(r,view,position));
     }
 
     @Override
