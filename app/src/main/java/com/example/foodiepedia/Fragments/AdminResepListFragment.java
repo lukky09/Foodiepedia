@@ -5,11 +5,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.foodiepedia.Adapter.RequestRecipeAdapter;
 import com.example.foodiepedia.R;
 import com.example.foodiepedia.databinding.FragmentAdminResepListBinding;
 
@@ -21,6 +23,7 @@ import com.example.foodiepedia.databinding.FragmentAdminResepListBinding;
 public class AdminResepListFragment extends Fragment {
 
     private FragmentAdminResepListBinding binding;
+    RequestRecipeAdapter adapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,5 +60,13 @@ public class AdminResepListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+    }
+
+    public void buatrecyclerview(){
+        binding.rvrecipe.setHasFixedSize(true);
+        binding.rvrecipe.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 }

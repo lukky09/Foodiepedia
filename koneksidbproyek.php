@@ -197,7 +197,7 @@ function addingtorecipe($conn)
 
 function getresep($conn)
 {
-    $sql = "SELECT * FROM reseps";
+    $sql = "SELECT * FROM reseps, user";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         $data = array();
