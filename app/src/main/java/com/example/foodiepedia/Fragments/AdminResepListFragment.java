@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -90,12 +91,52 @@ public class AdminResepListFragment extends Fragment {
         adapter = new RequestRecipeAdapter(listresep);
         binding.rvrecipe.setAdapter(adapter);
 
-        /*adapter.setOnItemClickCallback(new RequestRecipeAdapter.onItemClickCallback() {
+        adapter.setOnItemClickCallback(new RequestRecipeAdapter.onItemClickCallback() {
             @Override
             public void DeleteResep(Resep resep) {
-                StringRequest stringRequest = new StringRequest()
+                //System.out.println(resep.getIdresep());
+                StringRequest stringRequest = new StringRequest(
+                        Request.Method.POST,
+                        getResources().getString(R.string.url),
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    System.out.println(response);
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    String Message = jsonObject.getString("message");
+                                    Toast.makeText(getContext(),Message, Toast.LENGTH_SHORT).show();
+                                    for (Resep r:listresep) {
+                                        if (r.getIdresep() == resep.getIdresep()){
+                                            listresep.remove(resep);
+                                        }
+                                    }
+                                    adapter.notifyDataSetChanged();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                            }
+                        }
+                ){
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("func", "deleteresep");
+                        params.put("id", String.valueOf(resep.getIdresep()));
+                        return params;
+                    }
+                };
+                RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+                requestQueue.add(stringRequest);
             }
-        });*/
+        });
     }
 
     public void getallrequest(){
