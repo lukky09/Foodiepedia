@@ -44,8 +44,11 @@ switch ($_POST["func"]) {
     case "getresep":
         getresep($conn);
         break;
-    case "deleteresep":
-        deleteresep($conn);
+    case "getresepdets":
+        getresepdetail($conn);
+        break;
+    case "fol":
+        unorfollow($conn);
         break;
 }
 
@@ -227,18 +230,36 @@ function getresep($conn)
     echo json_encode($response);
 }
 
-function deleteresep($conn)
+function getresepdetail($conn)
 {
-    $id = $_POST["id"];
-    $sql = "DELETE from reseps WHERE resep_id = $id";
+    $id = $_POST["user"];
+    $idfud = $_POST["food"];
+    $idchef = $_POST["chef"];
+    $sql = "SELECT * FROM user_favorites WHERE user_id = $id and resep_id = $idfud";
+    if (mysqli_num_rows(mysqli_query($conn, $sql)) > 0)  $response["fav"] = 1;
+    else $response["fav"] = 0;
+    $sql = "SELECT * FROM user_follows WHERE user_id = $idchef and user_id_follower = $id";
+    if (mysqli_num_rows(mysqli_query($conn, $sql)) > 0) $response["fol"] = 1;
+    else $response["fol"] = 0;
+    $sql = "SELECT * FROM user_rating WHERE user_id = $id and resep_id = $idfud";
     $result = mysqli_query($conn, $sql);
-    if ($result){
-        $response["code"] = 1;
-        $response["message"] = "Resep Berhasil Dihapus";
-    }
-    else{
-        $response["code"] = -1;
-        $response["message"] = "Resep Gagal Dihapus";
-    }
+    if (mysqli_num_rows($result) > 0) $response["rat"] = mysqli_fetch_array($result)[2];
+    else $response["rat"] = 0;
     echo json_encode($response);
+}
+
+function unorfollow($conn)
+{
+    $id = $_POST["user"];
+    $idchef = $_POST["chef"];
+
+    if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM user_follows WHERE user_id = $idchef and user_id_follower = $id")) > 0) {
+        $insert = 0;
+        $sql = "DELETE FROM user_follows WHERE user_id = $idchef and user_id_follower = $id";
+    } else {
+        $insert = 1;
+        $sql = "INSERT INTO user_follows VALUES ($idchef,$id)";
+    }
+    mysqli_query($conn, $sql);
+    echo $insert;
 }

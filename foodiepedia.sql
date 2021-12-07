@@ -28,6 +28,13 @@ CREATE TABLE `bahanresep` (
 
 /*Data for the table `bahanresep` */
 
+insert  into `bahanresep`(`bahan_id`,`resep_id`,`qty`) values 
+(4,1,2),
+(3,2,11),
+(1,2,2),
+(4,3,3),
+(1,4,1);
+
 /*Table structure for table `bahans` */
 
 DROP TABLE IF EXISTS `bahans`;
@@ -61,9 +68,15 @@ CREATE TABLE `reseps` (
   `resep_desc` varchar(300) NOT NULL,
   `resep_isapproved` smallint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`resep_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `reseps` */
+
+insert  into `reseps`(`resep_id`,`user_id`,`resep_nama`,`resep_desc`,`resep_isapproved`) values 
+(1,1,'Cobaresep','kenthang',1),
+(2,1,'ExtraExtra','ahii<br />manyedihkan',1),
+(3,1,'Huew','ini kentang<br />hiyahiya',1),
+(4,1,'Blep','blep?<br />blepp!<br />blpelblep<br />',1);
 
 /*Table structure for table `user` */
 
@@ -87,6 +100,40 @@ insert  into `user`(`user_id`,`user_username`,`user_viewedname`,`user_password`,
 (3,'admin','','admin312',1,0),
 (4,'boedi','BoediGakTerlaluManta','123qweasd',0,0),
 (5,'bca','BCA','123456789',0,0);
+
+/*Table structure for table `user_favorites` */
+
+DROP TABLE IF EXISTS `user_favorites`;
+
+CREATE TABLE `user_favorites` (
+  `user_id` int(20) NOT NULL,
+  `resep_id` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `user_favorites` */
+
+/*Table structure for table `user_follows` */
+
+DROP TABLE IF EXISTS `user_follows`;
+
+CREATE TABLE `user_follows` (
+  `user_id` int(20) NOT NULL,
+  `user_id_follower` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `user_follows` */
+
+/*Table structure for table `user_rating` */
+
+DROP TABLE IF EXISTS `user_rating`;
+
+CREATE TABLE `user_rating` (
+  `user_id` int(20) NOT NULL,
+  `resep_id` int(20) NOT NULL,
+  `rating` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `user_rating` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

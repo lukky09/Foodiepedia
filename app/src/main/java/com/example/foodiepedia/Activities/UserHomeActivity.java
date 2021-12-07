@@ -80,7 +80,7 @@ public class UserHomeActivity extends AppCompatActivity {
                     try {
                         JSONObject job = new JSONObject(response);
                         currentuser = new User(getIntent().getIntExtra("id", -1), job.getString("nama"), job.getString("pass"));
-//                        binding.textView2.setText("Welcome, " + currentuser.getUser_name());
+                        binding.navBar.setSelectedItemId(R.id.menuHome);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -132,5 +132,6 @@ public class UserHomeActivity extends AppCompatActivity {
         }else {
             getuser(currentuser.getUser_id());
         }
+        binding.navBar.setSelectedItemId(R.id.menuHome);
     }
 }
