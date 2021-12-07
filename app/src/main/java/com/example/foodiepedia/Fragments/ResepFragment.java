@@ -122,7 +122,8 @@ public class ResepFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> param = new HashMap<>();
-                param.put("func", "getresep");
+                param.put("func", "getresepuser");
+                param.put("userid", currentUser.getUser_id() + "");
                 return param;
             }
         };

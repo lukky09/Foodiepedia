@@ -50,6 +50,21 @@ switch ($_POST["func"]) {
     case "fol":
         unorfollow($conn);
         break;
+    case "getrating": 
+        getrating($conn);
+        break;
+    case "insertrating": 
+        insertrating($conn);
+        break;
+    case "updaterating": 
+        updaterating($conn);
+        break;
+    case "getresepuser": 
+        getresepuser($conn);
+        break;
+    default:
+        echo "function tidak ada";
+        break;
 }
 
 function register($conn)
@@ -262,4 +277,80 @@ function unorfollow($conn)
     }
     mysqli_query($conn, $sql);
     echo $insert;
+}
+
+function getrating($conn){
+    $id = $_POST["user"];
+    $idresep = $_POST["resep"];
+    $result = mysqli_query($conn,"SELECT rating FROM user_rating WHERE resep_id = $idresep and user_id = $id");
+    if (mysqli_num_rows($result) > 0) {
+        $data = array();
+        while ($row = mysqli_fetch_array($result)) {
+            $data["rating"] = $row["rating"];
+        }
+        mysqli_free_result($result);
+        $response["code"] = 1;
+        $response["message"] = "Get Data Successful";
+        $response["rating"] = $data;
+    }else{
+        $response["code"] = 2;
+        $response["message"] = "Get Data Failed";
+    }
+    echo json_encode($response);
+}
+
+function insertrating($conn){
+    $userid = $_POST['userid'];
+    $resepid = $_POST['resepid'];
+    $rating = $_POST['rating'];
+    $sql = "INSERT INTO user_rating values($userid,$resepid,$rating)";
+    $flag = mysqli_query($conn,$sql);
+    if($flag){
+        echo "Insert Data Successful";
+    }else{
+        echo "Insert Data Failed";
+    }
+}
+
+function updaterating($conn){
+    $userid = $_POST['userid'];
+    $resepid = $_POST['resepid'];
+    $rating = $_POST['rating'];
+    $sql = "UPDATE user_rating SET rating = $rating where user_id = $userid AND resep_id = $resepid;";
+    $flag = mysqli_query($conn,$sql);
+    if($flag){
+        echo "Update Data Successful";
+    }else{
+        echo "Update Data Failed";
+    }
+}
+
+function getresepuser($conn)
+{
+    $userid = $_POST['userid'];
+    $sql = "SELECT * FROM reseps r, USER u WHERE u.user_id = r.user_id and u.user_id = $userid";
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        $data = array();
+        $reseps = array();
+        $ctr = 0;
+        while ($row = mysqli_fetch_array($result)) {
+            $data["resep_id"] = $row["resep_id"];
+            $data["resep_nama"] = $row["resep_nama"];
+            $data["resep_desk"] = $row["resep_desc"];
+            $data["chef_name"] = $row["user_viewedname"];
+            $data["chef_id"] = $row["user_id"];
+            $data["resep_isapproved"] = $row["resep_isapproved"];
+            $reseps[$ctr] = $data;
+            $ctr++;
+        }
+        mysqli_free_result($result);
+        $response["code"] = 1;
+        $response["message"] = "Get Data Successful";
+        $response["dataresep"] = $reseps;
+    } else {
+        $response["code"] = -1;
+        $response["message"] = "Tidak Ada Request Resep";
+    }
+    echo json_encode($response);
 }
