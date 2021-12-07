@@ -44,6 +44,9 @@ switch ($_POST["func"]) {
     case "getresep":
         getresep($conn);
         break;
+    case "deleteresep":
+        deleteresep($conn);
+        break;
     case "getresepdets":
         getresepdetail($conn);
         break;
@@ -241,6 +244,21 @@ function getresep($conn)
     } else {
         $response["code"] = -1;
         $response["message"] = "Tidak Ada Request Resep";
+    }
+    echo json_encode($response);
+}
+
+function deleteresep($conn){
+    $id = $_POST["id"];
+    $sql = "DELETE from reseps WHERE resep_id = $id";
+    $result = mysqli_query($conn, $sql);
+    if ($result){
+        $response["code"] = 1;
+        $response["message"] = "Resep Berhasil Dihapus";
+    }
+    else{
+        $response["code"] = -1;
+        $response["message"] = "Resep Gagal Dihapus";
     }
     echo json_encode($response);
 }

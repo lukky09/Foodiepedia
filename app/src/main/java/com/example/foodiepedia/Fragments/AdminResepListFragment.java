@@ -33,11 +33,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AdminResepListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AdminResepListFragment extends Fragment {
 
     private FragmentAdminResepListBinding binding;
@@ -94,7 +89,6 @@ public class AdminResepListFragment extends Fragment {
         adapter.setOnItemClickCallback(new RequestRecipeAdapter.onItemClickCallback() {
             @Override
             public void DeleteResep(Resep resep) {
-                //System.out.println(resep.getIdresep());
                 StringRequest stringRequest = new StringRequest(
                         Request.Method.POST,
                         getResources().getString(R.string.url),
@@ -135,6 +129,11 @@ public class AdminResepListFragment extends Fragment {
                 };
                 RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
                 requestQueue.add(stringRequest);
+            }
+
+            @Override
+            public void DetailResep(Resep resep) {
+                System.out.println(resep);
             }
         });
     }

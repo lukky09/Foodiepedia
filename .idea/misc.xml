@@ -24,11 +24,13 @@
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.20923076923076922" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/drawable/ic_home.xml" value="0.20923076923076922" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/drawable/ic_recipe.xml" value="0.20923076923076922" />
+        <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/activity_admin_detail_resep.xml" value="0.28422619047619047" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/activity_admin_home.xml" value="0.1" />
+        <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/activity_detail_resep.xml" value="0.22" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/activity_main.xml" value="0.12092391304347826" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/fragment_admin_resep_list.xml" value="0.22" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/fragment_admin_user_list.xml" value="0.18" />
-        <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/item_layout_recipe_request.xml" value="0.22" />
+        <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/item_layout_recipe_request.xml" value="0.33" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/item_layout_user.xml" value="0.25" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.3828125" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/activity_admin_home.xml" value="0.20520833333333333" />
@@ -68,7 +70,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

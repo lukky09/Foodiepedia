@@ -40,6 +40,13 @@ public class RequestRecipeAdapter extends RecyclerView.Adapter<RequestRecipeAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onItemClickCallback.DetailResep(resep);
+            }
+        });
+
+        holder.binding.buttondelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 onItemClickCallback.DeleteResep(resep);
             }
         });
@@ -65,5 +72,6 @@ public class RequestRecipeAdapter extends RecyclerView.Adapter<RequestRecipeAdap
 
     public interface onItemClickCallback{
         void DeleteResep(Resep resep);
+        void DetailResep(Resep resep);
     }
 }
