@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -18,6 +20,7 @@ import com.example.foodiepedia.Data.User;
 import com.example.foodiepedia.R;
 import com.example.foodiepedia.databinding.ActivityDetailResepBinding;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,7 +39,6 @@ public class DetailResepActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_resep);
-
         binding = ActivityDetailResepBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -44,7 +46,8 @@ public class DetailResepActivity extends AppCompatActivity {
         currresep = getIntent().getParcelableExtra("r");
 
         if(curruser.getUser_id() == currresep.getIduser()){
-            binding.lldetail.removeViewAt(2);
+            binding.lldetail.removeViewAt(4);
+            binding.ratingBar.setIsIndicator(true);
         }
 
         binding.tvnamaresepdetail.setText(currresep.getNama_resep());
@@ -60,6 +63,9 @@ public class DetailResepActivity extends AppCompatActivity {
                         else isfavorite = false;
                         if(job.getInt("fol") == 1) isfollowing = true;
                         else isfollowing = false;
+                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                        rating = job.getInt("rat");
+                        binding.ratingBar.setRating(rating);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -77,6 +83,65 @@ public class DetailResepActivity extends AppCompatActivity {
         };
         RequestQueue rqueue = Volley.newRequestQueue(this);
         rqueue.add(sreq);
+
+        if(rating == 0){
+            rating = -1;
+        }
+
+        binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b){
+                if(ratingBar.getRating() != 0){
+                    if(rating == 0){
+                        rating = Math.round(ratingBar.getRating());
+                        insertRating(rating,curruser,currresep);
+                    }else{
+                        rating = Math.round(ratingBar.getRating());
+                        updateRating(rating,curruser,currresep);
+                    }
+                }
+            }
+        });
+    }
+
+    public void insertRating(int rating,User user,Resep resep){
+        StringRequest request = new StringRequest(Request.Method.POST,getString(R.string.url),
+                response ->{
+                    Toast.makeText(DetailResepActivity.this, response, Toast.LENGTH_SHORT).show();
+                },error -> Toast.makeText(DetailResepActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> param = new HashMap<>();
+                param.put("func","insertrating");
+                param.put("rating",rating + "");
+                param.put("userid",user.getUser_id() + "");
+                param.put("resepid",resep.getIdresep() + "");
+                return param;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
+    }
+
+    public void updateRating(int rating,User user,Resep resep){
+        StringRequest request = new StringRequest(Request.Method.POST,getString(R.string.url),
+                response ->{
+                    Toast.makeText(DetailResepActivity.this, response, Toast.LENGTH_SHORT).show();
+                },error -> Toast.makeText(DetailResepActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> param = new HashMap<>();
+                param.put("func","updaterating");
+                param.put("rating",rating + "");
+                param.put("userid",user.getUser_id() + "");
+                param.put("resepid",resep.getIdresep() + "");
+                return param;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
     }
 
     public void follow(View view) {

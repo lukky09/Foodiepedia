@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:textAlignment="center"
         android:textSize="28sp"
         android:textStyle="bold" />
 
@@ -24,8 +25,36 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:text="Chef : huohoho"
+        android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/consLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="false"
+            android:numStars="5"
+            android:rating="3"
+            android:stepSize="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvdeskdetail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9"
+        android:text="TextView"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btnfollow"
@@ -33,11 +62,4 @@
         android:layout_height="wrap_content"
         android:onClick="follow"
         android:text="follow" />
-
-    <TextView
-        android:id="@+id/tvdeskdetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="20sp" />
 </LinearLayout>
