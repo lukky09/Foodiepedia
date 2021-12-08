@@ -66,7 +66,7 @@ public class RequestRecipeAdapter extends RecyclerView.Adapter<RequestRecipeAdap
 
         void bind(Resep resep) {
             binding.textnamaresep.setText(resep.getNama_resep());
-            binding.textresepuser.setText(resep.getChef_resep());
+            binding.textresepuser.setText("By : " + resep.getChef_resep());
         }
     }
 

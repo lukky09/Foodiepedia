@@ -1,5 +1,6 @@
 package com.example.foodiepedia.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.foodiepedia.Activities.AdminDetailResep;
 import com.example.foodiepedia.Adapter.RequestRecipeAdapter;
 import com.example.foodiepedia.Adapter.RequestRecipeAdapter;
 import com.example.foodiepedia.Data.Resep;
@@ -133,7 +135,10 @@ public class AdminResepListFragment extends Fragment {
 
             @Override
             public void DetailResep(Resep resep) {
-                System.out.println(resep);
+                System.out.println(resep.getIdresep());
+                Intent i = new Intent(getActivity(), AdminDetailResep.class);
+                i.putExtra("idresep", resep.getIdresep());
+                startActivity(i);
             }
         });
     }

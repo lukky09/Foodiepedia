@@ -65,6 +65,9 @@ switch ($_POST["func"]) {
     case "getresepuser": 
         getresepuser($conn);
         break;
+    case "admingetresepdetail":
+        admingetdetailresep($conn);
+        break;
     default:
         echo "function tidak ada";
         break;
@@ -278,6 +281,62 @@ function getresepdetail($conn)
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) $response["rat"] = mysqli_fetch_array($result)[2];
     else $response["rat"] = 0;
+    echo json_encode($response);
+}
+
+function admingetdetailresep($conn)
+{
+    $idresep = $_POST["idresep"];
+
+    $sql = "SELECT AVG(rating) FROM user_rating WHERE resep_id = $idresep";
+    $result = mysqli_fetch_row(mysqli_query($conn, $sql));
+    if ($result[0] == null){
+        $response["rating"] = 0;
+    }
+    else{
+        $response["rating"] = $result[0];
+    }
+
+    $sql = "SELECT * FROM reseps r, user u WHERE r.user_id = u.user_id AND r.resep_id = $idresep";
+    $result = mysqli_fetch_array(mysqli_query($conn, $sql));
+
+    if ($result){
+        $data = array();
+        $data["resep_id"] = $result["resep_id"];
+        $data["resep_nama"] = $result["resep_nama"];
+        $data["resep_desk"] = $result["resep_desc"];
+        $data["chef_name"] = $result["user_viewedname"];
+        $data["chef_id"] = $result["user_id"];
+        $data["resep_isapproved"] = $result["resep_isapproved"];
+        $response["resep"] = $data;
+
+        $sql = "SELECT * FROM bahanresep br, bahans b WHERE br.bahan_id = b.bahan_id AND br.resep_id = $idresep";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            $data = array();
+            $bahans = array();
+            $ctr = 0;
+            while ($row = mysqli_fetch_array($result)) {
+                $data["bahan_id"] = $row["bahan_id"];
+                $data["bahan_nama"] = $row["bahan_nama"];
+                $data["bahan_isapproved"] = $row["bahan_isapproved"];
+                $data["qty"] = $row["qty"];
+                $bahans[$ctr] = $data;
+                $ctr++;
+            }
+            mysqli_free_result($result);
+            $response["code"] = 1;
+            $response["message"] = "Get Data Successful";
+            $response["bahan"] = $bahans;
+        } else {
+            $response["code"] = -2;
+            $response["message"] = "Get Bahan Failed";
+        }
+    }
+    else{
+        $response["code"] = -1;
+        $response["message"] = "Get Resep Failed";
+    }
     echo json_encode($response);
 }
 
