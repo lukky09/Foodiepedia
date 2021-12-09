@@ -33,7 +33,6 @@
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/item_layout_recipe_detail_bahan_admin.xml" value="0.25" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/item_layout_recipe_request.xml" value="0.33" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/item_layout_user.xml" value="0.25" />
-        <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.3828125" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.3828125" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/activity_admin_home.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/activity_detail_resep.xml" value="0.266304347826087" />
@@ -43,12 +42,8 @@
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/activity_user_home.xml" value="0.27943840579710144" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/fragment_resep.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/item_layout_m7_materi_money_entry.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/item_layout_recipe_request.xml" value="0.2554347826086957" />
-        <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/item_layout_recipes_user.xml" value="0.2554347826086957" />
-        <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/item_layout_resep.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/menu/menu_user.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/menu/menu_user_nav.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/menu/option_menu_detail.xml" value="0.36666666666666664" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/drawable/ic_home.xml" value="0.3828125" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/drawable/ic_recipe.xml" value="0.3828125" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/drawable/ic_user.xml" value="0.3828125" />
@@ -69,10 +64,12 @@
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/item_layout_recipes_user.xml" value="0.36666666666666664" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/item_layout_resep.xml" value="0.24547101449275363" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/item_layout_user.xml" value="0.36666666666666664" />
+        <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/menu/menu_admin_logout.xml" value="0.36666666666666664" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/menu/menu_admin_nav.xml" value="0.36666666666666664" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/menu/menu_req_bahan.xml" value="0.36666666666666664" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/menu/menu_user.xml" value="0.36666666666666664" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/menu/menu_user_nav.xml" value="0.36666666666666664" />
+        <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/menu/option_menu_detail.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

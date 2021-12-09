@@ -80,6 +80,7 @@ public class UserHomeActivity extends AppCompatActivity {
                     try {
                         JSONObject job = new JSONObject(response);
                         currentuser = new User(getIntent().getIntExtra("id", -1), job.getString("nama"), job.getString("pass"));
+                        binding.navBar.setSelectedItemId(R.id.menuListResep);
                         binding.navBar.setSelectedItemId(R.id.menuHome);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -118,6 +119,10 @@ public class UserHomeActivity extends AppCompatActivity {
                 i.putExtra("user", currentuser);
                 startActivityForResult(i, 0);
                 break;
+            case R.id.itemusersearch:
+                i = new Intent(this, SearchActivity.class);
+                startActivityForResult(i, 0);
+                break;
             default:
                 finish();
         }
@@ -129,9 +134,7 @@ public class UserHomeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == 111){
             Toast.makeText(this, "Resep sudah ditambahkan :D", Toast.LENGTH_SHORT).show();
-        }else {
-            getuser(currentuser.getUser_id());
         }
-        binding.navBar.setSelectedItemId(R.id.menuHome);
+        getuser(currentuser.getUser_id());
     }
 }
