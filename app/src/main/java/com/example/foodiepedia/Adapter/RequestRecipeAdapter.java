@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodiepedia.Data.Resep;
 import com.example.foodiepedia.databinding.ItemLayoutRecipeRequestBinding;
-import com.example.foodiepedia.databinding.ItemLayoutResepBinding;
 
 import java.util.ArrayList;
 

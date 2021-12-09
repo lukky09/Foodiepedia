@@ -68,6 +68,12 @@ switch ($_POST["func"]) {
     case "admingetresepdetail":
         admingetdetailresep($conn);
         break;
+    case "getfavorites": 
+        getfavorites($conn);
+        break;
+    case "insertfavorites": 
+        insertfavorites($conn);
+        break;
     default:
         echo "function tidak ada";
         break;
@@ -430,4 +436,47 @@ function getresepuser($conn)
         $response["message"] = "Tidak Ada Request Resep";
     }
     echo json_encode($response);
+}
+
+function getfavorites($conn){
+    $user_id = $_POST["user_id"];
+    $resep_id = $_POST["resep_id"];
+    $query = "SELECT * FROM reseps WHERE user_id = $user_id AND resep_id = $resep_id";
+    $result = mysqli_query($conn,$query);
+    if(mysqli_fetch_row($result) > 0){
+        $query = "SELECT * FROM USER_FAVORITES WHERE USER_ID = $user_id and RESEP_ID = $resep_id";
+        $result = mysqli_query($conn,$query);
+        if(mysqli_num_rows($result) > 0){
+            echo "favorites";
+        }else{
+        echo "notyet";
+        }
+    }else{
+        echo "resep sendiri";
+    }
+    
+}
+function insertfavorites($conn){
+    $query = $_POST["query"];
+    $user_id = $_POST["user_id"];
+    $resep_id = $_POST["resep_id"];
+    $return = "";
+    if($query == "insert"){
+        $query1 = "INSERT INTO user_favorites VALUES($user_id,$resep_id)";     
+        $result = mysqli_query($conn,$query1);
+        if($result){
+            $return = "insert berhasil";
+        }else{
+            $return = "insert gagal"; 
+        }
+    }else{
+        $query1 = "DELETE FROM user_favorites WHERE user_id = $user_id AND resep_id = $resep_id";
+        $result = mysqli_query($conn,$query1);
+        if($result){
+            $return = "delete berhasil";
+        }else{
+            $return = "delete gagal";
+        }
+    }
+    echo $return;
 }
