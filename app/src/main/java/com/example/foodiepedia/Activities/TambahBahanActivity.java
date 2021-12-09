@@ -70,7 +70,6 @@ public class TambahBahanActivity extends AppCompatActivity {
             alert.setTitle("Request Bahan");
             alert.setMessage("Nanti bahan akan diaccept oleh admin");
 
-// Set an EditText view to get user input
             final EditText input = new EditText(this);
             alert.setView(input);
 
@@ -176,6 +175,7 @@ public class TambahBahanActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> param = new HashMap<>();
                 param.put("func", "getapprovedings");
+                param.put("verified", 0+"");
                 return param;
             }
         };
