@@ -77,6 +77,9 @@ switch ($_POST["func"]) {
     case "searchresep":
         cariresep($conn);
         break;
+    case "ret":
+        getratingavg($conn);
+        break;
     default:
         echo "function tidak ada";
         break;
@@ -196,9 +199,9 @@ function updateuser($conn)
 
 function getingredients($conn)
 {
-    if($_POST["verified"] = 0){
+    if ($_POST["verified"] = 0) {
         $result = mysqli_query($conn, "SELECT * FROM bahans ORDER BY bahan_nama ASC");
-    }else{
+    } else {
         $result = mysqli_query($conn, "SELECT * FROM bahans WHERE bahan_isapproved = 1 ORDER BY bahan_nama ASC");
     }
     while ($row = mysqli_fetch_row($result)) {
@@ -389,6 +392,26 @@ function getrating($conn)
     echo json_encode($response);
 }
 
+function getratingavg($conn)
+{
+    $idresep = $_POST["resep"];
+    $result = mysqli_query($conn, "SELECT rating FROM user_rating WHERE resep_id = $idresep");
+    if (mysqli_num_rows($result) > 0) {
+        $rating = 0;
+        $jum = 0;
+        while ($row = mysqli_fetch_array($result)) {
+            $rating += $row[0];
+            $jum++;
+        }
+        mysqli_free_result($result);
+        $rating = $rating * 1.0 / $jum;
+        $rating = round($rating * 2) * 1.0 / 2;
+    } else {
+        $rating = 0;
+    }
+    echo json_encode($rating);
+}
+
 function insertrating($conn)
 {
     $userid = $_POST['userid'];
@@ -501,16 +524,16 @@ function cariresep($conn)
     WHERE r.resep_id = b.resep_id 
     AND r.user_id = u.user_id 
     AND resep_isapproved = 1";
-    if(count($reseps)>0){
-        $sql = $sql." AND (";
-        for ($i=0; $i < count($reseps); $i++) { 
-            $sql= $sql."b.bahan_id = $reseps[$i] OR ";
+    if (count($reseps) > 0) {
+        $sql = $sql . " AND (";
+        for ($i = 0; $i < count($reseps); $i++) {
+            $sql = $sql . "b.bahan_id = $reseps[$i] OR ";
         }
-        $sql = substr($sql,0,strlen($sql)-4).") ";
+        $sql = substr($sql, 0, strlen($sql) - 4) . ") ";
     }
-    $sql= $sql."AND r.resep_nama LIKE '%$kword%' 
+    $sql = $sql . "AND r.resep_nama LIKE '%$kword%' 
     GROUP BY r.resep_id 
-    HAVING jumlah >= ".count($reseps);
+    HAVING jumlah >= " . count($reseps);
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_array($result)) {
         $data["resep_id"] = $row["resep_id"];
@@ -521,10 +544,9 @@ function cariresep($conn)
         $data["resep_isapproved"] = $row["resep_isapproved"];
         $response[] = $data;
     }
-    if(isset($response)){
+    if (isset($response)) {
         echo json_encode($response);
-    }else{
+    } else {
         echo "no";
     }
-    
 }
