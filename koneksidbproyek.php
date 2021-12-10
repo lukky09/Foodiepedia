@@ -53,26 +53,29 @@ switch ($_POST["func"]) {
     case "fol":
         unorfollow($conn);
         break;
-    case "getrating": 
+    case "getrating":
         getrating($conn);
         break;
-    case "insertrating": 
+    case "insertrating":
         insertrating($conn);
         break;
-    case "updaterating": 
+    case "updaterating":
         updaterating($conn);
         break;
-    case "getresepuser": 
+    case "getresepuser":
         getresepuser($conn);
         break;
     case "admingetresepdetail":
         admingetdetailresep($conn);
         break;
-    case "getfavorites": 
+    case "getfavorites":
         getfavorites($conn);
         break;
-    case "insertfavorites": 
+    case "insertfavorites":
         insertfavorites($conn);
+        break;
+    case "searchresep":
+        cariresep($conn);
         break;
     default:
         echo "function tidak ada";
@@ -193,8 +196,13 @@ function updateuser($conn)
 
 function getingredients($conn)
 {
-    $result = mysqli_query($conn, "SELECT * FROM bahans ORDER BY bahan_nama ASC");
+    if($_POST["verified"] = 0){
+        $result = mysqli_query($conn, "SELECT * FROM bahans ORDER BY bahan_nama ASC");
+    }else{
+        $result = mysqli_query($conn, "SELECT * FROM bahans WHERE bahan_isapproved = 1 ORDER BY bahan_nama ASC");
+    }
     while ($row = mysqli_fetch_row($result)) {
+        $isi["id"] = $row[0];
         $isi["nama"] = $row[1];
         $isi["app"] = $row[2];
         $bahan[] = $isi;
@@ -257,15 +265,15 @@ function getresep($conn)
     echo json_encode($response);
 }
 
-function deleteresep($conn){
+function deleteresep($conn)
+{
     $id = $_POST["id"];
     $sql = "DELETE from reseps WHERE resep_id = $id";
     $result = mysqli_query($conn, $sql);
-    if ($result){
+    if ($result) {
         $response["code"] = 1;
         $response["message"] = "Resep Berhasil Dihapus";
-    }
-    else{
+    } else {
         $response["code"] = -1;
         $response["message"] = "Resep Gagal Dihapus";
     }
@@ -296,17 +304,16 @@ function admingetdetailresep($conn)
 
     $sql = "SELECT AVG(rating) FROM user_rating WHERE resep_id = $idresep";
     $result = mysqli_fetch_row(mysqli_query($conn, $sql));
-    if ($result[0] == null){
+    if ($result[0] == null) {
         $response["rating"] = 0;
-    }
-    else{
+    } else {
         $response["rating"] = $result[0];
     }
 
     $sql = "SELECT * FROM reseps r, user u WHERE r.user_id = u.user_id AND r.resep_id = $idresep";
     $result = mysqli_fetch_array(mysqli_query($conn, $sql));
 
-    if ($result){
+    if ($result) {
         $data = array();
         $data["resep_id"] = $result["resep_id"];
         $data["resep_nama"] = $result["resep_nama"];
@@ -338,8 +345,7 @@ function admingetdetailresep($conn)
             $response["code"] = -2;
             $response["message"] = "Get Bahan Failed";
         }
-    }
-    else{
+    } else {
         $response["code"] = -1;
         $response["message"] = "Get Resep Failed";
     }
@@ -362,10 +368,11 @@ function unorfollow($conn)
     echo $insert;
 }
 
-function getrating($conn){
+function getrating($conn)
+{
     $id = $_POST["user"];
     $idresep = $_POST["resep"];
-    $result = mysqli_query($conn,"SELECT rating FROM user_rating WHERE resep_id = $idresep and user_id = $id");
+    $result = mysqli_query($conn, "SELECT rating FROM user_rating WHERE resep_id = $idresep and user_id = $id");
     if (mysqli_num_rows($result) > 0) {
         $data = array();
         while ($row = mysqli_fetch_array($result)) {
@@ -375,35 +382,37 @@ function getrating($conn){
         $response["code"] = 1;
         $response["message"] = "Get Data Successful";
         $response["rating"] = $data;
-    }else{
+    } else {
         $response["code"] = 2;
         $response["message"] = "Get Data Failed";
     }
     echo json_encode($response);
 }
 
-function insertrating($conn){
+function insertrating($conn)
+{
     $userid = $_POST['userid'];
     $resepid = $_POST['resepid'];
     $rating = $_POST['rating'];
     $sql = "INSERT INTO user_rating values($userid,$resepid,$rating)";
-    $flag = mysqli_query($conn,$sql);
-    if($flag){
+    $flag = mysqli_query($conn, $sql);
+    if ($flag) {
         echo "Insert Data Successful";
-    }else{
+    } else {
         echo "Insert Data Failed";
     }
 }
 
-function updaterating($conn){
+function updaterating($conn)
+{
     $userid = $_POST['userid'];
     $resepid = $_POST['resepid'];
     $rating = $_POST['rating'];
     $sql = "UPDATE user_rating SET rating = $rating where user_id = $userid AND resep_id = $resepid;";
-    $flag = mysqli_query($conn,$sql);
-    if($flag){
+    $flag = mysqli_query($conn, $sql);
+    if ($flag) {
         echo "Update Data Successful";
-    }else{
+    } else {
         echo "Update Data Failed";
     }
 }
@@ -438,45 +447,84 @@ function getresepuser($conn)
     echo json_encode($response);
 }
 
-function getfavorites($conn){
+function getfavorites($conn)
+{
     $user_id = $_POST["user_id"];
     $resep_id = $_POST["resep_id"];
     $query = "SELECT * FROM reseps WHERE user_id = $user_id AND resep_id = $resep_id";
-    $result = mysqli_query($conn,$query);
-    if(mysqli_fetch_row($result) > 0){
+    $result = mysqli_query($conn, $query);
+    if (mysqli_fetch_row($result) > 0) {
         $query = "SELECT * FROM USER_FAVORITES WHERE USER_ID = $user_id and RESEP_ID = $resep_id";
-        $result = mysqli_query($conn,$query);
-        if(mysqli_num_rows($result) > 0){
+        $result = mysqli_query($conn, $query);
+        if (mysqli_num_rows($result) > 0) {
             echo "favorites";
-        }else{
-        echo "notyet";
+        } else {
+            echo "notyet";
         }
-    }else{
+    } else {
         echo "resep sendiri";
     }
-    
 }
-function insertfavorites($conn){
+
+function insertfavorites($conn)
+{
     $query = $_POST["query"];
     $user_id = $_POST["user_id"];
     $resep_id = $_POST["resep_id"];
     $return = "";
-    if($query == "insert"){
-        $query1 = "INSERT INTO user_favorites VALUES($user_id,$resep_id)";     
-        $result = mysqli_query($conn,$query1);
-        if($result){
+    if ($query == "insert") {
+        $query1 = "INSERT INTO user_favorites VALUES($user_id,$resep_id)";
+        $result = mysqli_query($conn, $query1);
+        if ($result) {
             $return = "insert berhasil";
-        }else{
-            $return = "insert gagal"; 
+        } else {
+            $return = "insert gagal";
         }
-    }else{
+    } else {
         $query1 = "DELETE FROM user_favorites WHERE user_id = $user_id AND resep_id = $resep_id";
-        $result = mysqli_query($conn,$query1);
-        if($result){
+        $result = mysqli_query($conn, $query1);
+        if ($result) {
             $return = "delete berhasil";
-        }else{
+        } else {
             $return = "delete gagal";
         }
     }
     echo $return;
+}
+
+function cariresep($conn)
+{
+    $kword = $_POST["key"];
+    $reseps = json_decode($_POST["reseps"]);
+    $sql = "SELECT r.* , u.user_viewedname,COUNT(r.resep_nama)  AS jumlah 
+    FROM reseps r, bahanresep b ,USER u 
+    WHERE r.resep_id = b.resep_id 
+    AND r.user_id = u.user_id 
+    AND resep_isapproved = 1";
+    if(count($reseps)>0){
+        $sql = $sql." AND (";
+        for ($i=0; $i < count($reseps); $i++) { 
+            $sql= $sql."b.bahan_id = $reseps[$i] OR ";
+        }
+        $sql = substr($sql,0,strlen($sql)-4).") ";
+    }
+    $sql= $sql."AND r.resep_nama LIKE '%$kword%' 
+    GROUP BY r.resep_id 
+    HAVING jumlah >= ".count($reseps);
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_array($result)) {
+        $data["resep_id"] = $row["resep_id"];
+        $data["resep_nama"] = $row["resep_nama"];
+        $data["resep_desk"] = $row["resep_desc"];
+        $data["chef_name"] = $row["user_viewedname"];
+        $data["chef_id"] = $row["user_id"];
+        $data["resep_isapproved"] = $row["resep_isapproved"];
+        $response[] = $data;
+    }
+    if(isset($response)){
+        echo json_encode($response);
+    }else{
+        echo "no";
+    }
+    
 }

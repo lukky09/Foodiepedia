@@ -18,6 +18,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.foodiepedia.Data.Resep;
+import com.example.foodiepedia.Data.User;
 import com.example.foodiepedia.R;
 import com.example.foodiepedia.databinding.ActivitySearchBinding;
 
@@ -34,6 +36,7 @@ public class SearchActivity extends AppCompatActivity {
     ActivitySearchBinding binding;
     ArrayList<CheckBox> ceks;
     ArrayList<Integer> ids;
+    User curruser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class SearchActivity extends AppCompatActivity {
         ceks = new ArrayList<>();
         ids = new ArrayList<>();
         binding = ActivitySearchBinding.inflate(getLayoutInflater());
+        curruser = getIntent().getParcelableExtra("u");
         setContentView(binding.getRoot());
 
         StringRequest sreq = new StringRequest(
@@ -49,9 +53,8 @@ public class SearchActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        JSONArray jar = null;
                         try {
-                            jar = new JSONArray(response);
+                            JSONArray jar = new JSONArray(response);
                             ceks.clear();
                             ids.clear();
                             for (int i = 0; i < jar.length(); i++) {
@@ -63,7 +66,7 @@ public class SearchActivity extends AppCompatActivity {
                                 ids.add(job.getInt("id"));
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            System.out.println(e.getMessage());
                         }
                     }
                 },
@@ -83,5 +86,53 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void search(View view) {
+        JSONArray jarsearch = new JSONArray();
+        for (int i = 0; i < ceks.size(); i++) {
+            if(ceks.get(i).isChecked())jarsearch.put(ids.get(i));
+        }
+        System.out.println(jarsearch);
+        StringRequest sreq = new StringRequest(
+                Request.Method.POST,
+                getString(R.string.url),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println(response);
+                        try {
+                            ArrayList<Resep> r = new ArrayList<>();
+                            JSONArray jar = new JSONArray(response);
+                            for (int i = 0; i < jar.length(); i++) {
+                                JSONObject job = jar.getJSONObject(i);
+                                r.add(new Resep(job.getInt("resep_id"),
+                                        job.getInt("chef_id"),
+                                        job.getString("resep_nama"),
+                                        job.getString("resep_desk"),
+                                        job.getString("chef_name"),
+                                        job.getInt("resep_isapproved")));
+                            }
+                            Intent i = new Intent(SearchActivity.this,SearchResultActivity.class);
+                            i.putParcelableArrayListExtra("r",r);
+                            i.putExtra("u",curruser);
+                            startActivity(i);
+                            finish();
+                        } catch (JSONException e) {
+                            Toast.makeText(SearchActivity.this, "Tidak ditemukan item", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                error -> Toast.makeText(SearchActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> param = new HashMap<>();
+                param.put("func", "searchresep");
+                param.put("key", binding.etresepsearch.getText().toString().trim());
+                param.put("reseps", jarsearch+"");
+                return param;
+            }
+        };
+        RequestQueue rqueue = Volley.newRequestQueue(this);
+        rqueue.add(sreq);
     }
 }

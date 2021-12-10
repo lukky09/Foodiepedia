@@ -121,6 +121,7 @@ public class UserHomeActivity extends AppCompatActivity {
                 break;
             case R.id.itemusersearch:
                 i = new Intent(this, SearchActivity.class);
+                i.putExtra("u", currentuser);
                 startActivityForResult(i, 0);
                 break;
             default:
