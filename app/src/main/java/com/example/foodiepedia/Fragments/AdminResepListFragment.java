@@ -102,11 +102,16 @@ public class AdminResepListFragment extends Fragment {
                                     JSONObject jsonObject = new JSONObject(response);
                                     String Message = jsonObject.getString("message");
                                     Toast.makeText(getContext(),Message, Toast.LENGTH_SHORT).show();
+                                    Resep temp = resep;
+                                    boolean found = false;
                                     for (Resep r:listresep) {
                                         if (r.getIdresep() == resep.getIdresep()){
-                                            listresep.remove(resep);
+                                            temp = r;
+                                            found = true;
+                                            break;
                                         }
                                     }
+                                    if(found) listresep.remove(temp);
                                     adapter.notifyDataSetChanged();
                                 } catch (JSONException e) {
                                     e.printStackTrace();

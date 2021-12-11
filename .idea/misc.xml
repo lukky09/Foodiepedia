@@ -12,9 +12,13 @@
         <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/activity_main.xml" value="0.1539855072463768" />
         <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/activity_register.xml" value="0.2" />
         <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/activity_user_home.xml" value="0.2109375" />
+        <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/fragment_admin_bahan_list.xml" value="0.14990942028985507" />
+        <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/fragment_admin_resep_list.xml" value="0.14990942028985507" />
         <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/fragment_admin_user_list.xml" value="0.12545289855072464" />
         <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/fragment_resep.xml" value="0.264" />
         <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/item_layout_bahan.xml" value="0.264" />
+        <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/item_layout_recipe_request.xml" value="0.14990942028985507" />
+        <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/item_layout_recipes_user.xml" value="0.14990942028985507" />
         <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/item_layout_resep.xml" value="0.264" />
         <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/layout/item_layout_user.xml" value="0.264" />
         <entry key="..\:/CollegeStuff/S5/MDP/Project/app/src/main/res/menu/menu_admin_logout.xml" value="0.21510416666666668" />
