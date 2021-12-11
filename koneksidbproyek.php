@@ -85,6 +85,13 @@ switch ($_POST["func"]) {
         break;
     case "getbahan":
         getbahan($conn);
+        break;
+    case "getbahanadmin":
+        getbahanadmin($conn);
+        break;
+    case "accbahanadmin":
+        accbahanadmin($conn);
+        break;
     default:
         echo "function tidak ada";
         break;
@@ -614,5 +621,48 @@ function getbahan($conn){
         $ctr++;
     }
     $response["bahanbahan"] = $bahan;
+    echo json_encode($response);
+}
+
+function getbahanadmin($conn){
+    $sql = "SELECT * FROM bahans";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0){
+        $data = array();
+        $bahan = array();
+        $ctr = 0;
+        while($row = mysqli_fetch_array($result)){
+            $data["id_bahan"] = $row["bahan_id"];
+            $data["bahan_nama"] = $row["bahan_nama"];
+            $data["statusbahan"] = $row["bahan_isapproved"];
+            $bahan[$ctr] = $data;
+            $ctr++;
+        }
+        $response["code"] = 1;
+        $response["message"] = "Request Bahan Sukses";
+        $response["bahan"] = $bahan;
+    }
+    else{
+        $response["code"] = -1;
+        $response["message"] = "Tidak Ada Request Bahan";
+    }
+    echo json_encode($response);
+}
+
+function accbahanadmin($conn){
+    $id = $_POST["bahan_id"];
+    $sql = "UPDATE bahans SET bahan_isapproved = 1 WHERE bahan_id = $id";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result){
+        $response["code"] = 1;
+        $response["message"] = "Bahan Berhasil Ditambahkan";
+    }
+    else{
+        $response["code"] = -1;
+        $response["message"] = "Bahan Gagal Ditambahkan";
+    }
+
     echo json_encode($response);
 }

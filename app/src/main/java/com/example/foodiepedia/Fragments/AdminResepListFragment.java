@@ -187,6 +187,7 @@ public class AdminResepListFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("func", "getresep");
+                params.put("id", String.valueOf(-1));
                 return params;
             }
         };
