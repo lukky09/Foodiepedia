@@ -24,6 +24,7 @@ import com.example.foodiepedia.Data.User;
 import com.example.foodiepedia.R;
 import com.example.foodiepedia.databinding.ActivityDetailResepBinding;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,14 +40,15 @@ public class DetailResepActivity extends AppCompatActivity {
     boolean isfollowing,isfavorite,isMine,isStarted;
     ActivityDetailResepBinding binding;
     Menu option;
+    MenuItem optFav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_resep);
+
         binding = ActivityDetailResepBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        isfavorite = false;
         curruser = getIntent().getParcelableExtra("u");
         currresep = getIntent().getParcelableExtra("r");
 
@@ -54,18 +56,53 @@ public class DetailResepActivity extends AppCompatActivity {
             binding.lldetail.removeViewAt(4);
             binding.ratingBar.setIsIndicator(true);
         }
-
+        StringRequest request = new StringRequest(Request.Method.POST,getString(R.string.url),
+                response -> {
+                    try {
+                    JSONArray jar = new JSONObject(response).getJSONArray("bahanbahan");
+                    String listBahan = "";
+                    for (int i = 0; i < jar.length(); i++) {
+                        JSONObject job = jar.getJSONObject(i);
+                        String Bahan = job.getString("bahan_nama") + " - " + job.getInt("qty");
+                        listBahan += Bahan + "\n";
+                    }
+                    binding.tvListBahan.setText(listBahan);
+                    }catch(JSONException e){
+                        e.printStackTrace();
+                    }
+                },error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show()){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> param = new HashMap<>();
+                param.put("func","getbahan");
+                param.put("resep_id",currresep.getIdresep() + "");
+                return param;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
         binding.tvnamaresepdetail.setText(currresep.getNama_resep());
         binding.tvchefdetail.setText("Chef : "+currresep.getChef_resep());
         binding.tvdeskdetail.setText("Deskripsi :\n"+currresep.getDesk_resep().replaceAll("<br />", "\n"));
+    }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        checkFavorite(menuInflater,menu); // untuk mengecek apakah user ini sudah melakukan favorites pada resep ini atau blm
+        optFav = option.findItem(R.id.optFav);
         StringRequest sreq = new StringRequest(Request.Method.POST, getString(R.string.url),
                 response -> {
                     try {
                         JSONObject job = new JSONObject(response);
+//                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                         rating = job.getInt("rat");
-                        if(job.getInt("fav") == 1) isfavorite = true;
-                        else isfavorite = false;
+                        if(job.getInt("fav") == 1) {
+                            isfavorite = true;
+                            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_favorite_24));
+                        }
                         if(job.getInt("fol") == 1) isfollowing = true;
                         else isfollowing = false;
                         rating = job.getInt("rat");
@@ -87,7 +124,6 @@ public class DetailResepActivity extends AppCompatActivity {
         };
         RequestQueue rqueue = Volley.newRequestQueue(this);
         rqueue.add(sreq);
-
         if(rating == 0){
             rating = -1;
         }
@@ -113,32 +149,20 @@ public class DetailResepActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        checkFavorite(menuInflater,menu); // untuk mengecek apakah user ini sudah melakukan favorites pada resep ini atau blm
-        MenuItem optFav = option.findItem(R.id.optFav);
-        if(isfavorite){
-            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_favorite_24));
-        }else{
-            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_favorite_border_24));
-        }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        MenuItem optFav = option.findItem(R.id.optFav);
-        if(!isfavorite){
-            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_favorite_24));
-            isfavorite = true;
-            insertFavorite("insert");
-        }else{
+        Toast.makeText(getApplicationContext(), isfavorite + "", Toast.LENGTH_SHORT).show();
+        if(isfavorite){
             optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_favorite_border_24));
             isfavorite = false;
             insertFavorite("delete");
+        }else{
+            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_favorite_24));
+            isfavorite = true;
+            insertFavorite("insert");
         }
         return true;
     }
@@ -166,7 +190,7 @@ public class DetailResepActivity extends AppCompatActivity {
     public void updateRating(int rating,User user,Resep resep){
         StringRequest request = new StringRequest(Request.Method.POST,getString(R.string.url),
                 response ->{
-                    Toast.makeText(DetailResepActivity.this, response, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(DetailResepActivity.this, response, Toast.LENGTH_SHORT).show();
                 },error -> Toast.makeText(DetailResepActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()){
             @Nullable
             @Override

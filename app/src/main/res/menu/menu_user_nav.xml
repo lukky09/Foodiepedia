@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/menuHome"
@@ -9,6 +10,10 @@
         android:id="@+id/menuListUser"
         android:icon="@drawable/ic_user"
         android:title="Following" />
+    <item
+        android:id="@+id/menuFavorites"
+        android:icon="@drawable/ic_baseline_favorite_border_24"
+        android:title="Favorites" />
     <item
         android:id="@+id/menuListResep"
         android:icon="@drawable/ic_recipe"

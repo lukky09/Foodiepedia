@@ -20,6 +20,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.foodiepedia.Data.User;
+import com.example.foodiepedia.Fragments.FavoritesFragment;
 import com.example.foodiepedia.Fragments.ResepFragment;
 import com.example.foodiepedia.Fragments.UserHomeFragment;
 import com.example.foodiepedia.R;
@@ -55,6 +56,9 @@ public class UserHomeActivity extends AppCompatActivity {
                         break;
                     case R.id.menuListResep:
                         fragment = ResepFragment.newInstance(currentuser);
+                        break;
+                    case R.id.menuFavorites:
+                        fragment = FavoritesFragment.newInstance(currentuser);
                         break;
                     default:
                         fragment = UserHomeFragment.newInstance(currentuser,true);

@@ -80,6 +80,11 @@ switch ($_POST["func"]) {
     case "ret":
         getratingavg($conn);
         break;
+    case "getlistfavorites":
+        getListFavorites($conn);
+        break;
+    case "getbahan":
+        getbahan($conn);
     default:
         echo "function tidak ada";
         break;
@@ -296,16 +301,20 @@ function getresepdetail($conn)
     $id = $_POST["user"];
     $idfud = $_POST["food"];
     $idchef = $_POST["chef"];
+    
     $sql = "SELECT * FROM user_favorites WHERE user_id = $id and resep_id = $idfud";
-    if (mysqli_num_rows(mysqli_query($conn, $sql)) > 0)  $response["fav"] = 1;
+    if (mysqli_num_rows(mysqli_query($conn, $sql)) > 0) $response["fav"] = 1;
     else $response["fav"] = 0;
+
     $sql = "SELECT * FROM user_follows WHERE user_id = $idchef and user_id_follower = $id";
     if (mysqli_num_rows(mysqli_query($conn, $sql)) > 0) $response["fol"] = 1;
     else $response["fol"] = 0;
+    
     $sql = "SELECT * FROM user_rating WHERE user_id = $id and resep_id = $idfud";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) $response["rat"] = mysqli_fetch_array($result)[2];
     else $response["rat"] = 0;
+    
     echo json_encode($response);
 }
 
@@ -522,6 +531,36 @@ function insertfavorites($conn)
     }
     echo $return;
 }
+function getListFavorites($conn){
+    $user_id = $_POST["userid"];
+    $query = "SELECT uf.resep_id,r.resep_nama,r.resep_desc,u.user_viewedname,u.user_id,r.resep_isapproved
+    FROM USER u LEFT JOIN user_favorites uf ON u.user_id = uf.user_id LEFT JOIN reseps r ON uf.resep_id = r.resep_id 
+    WHERE u.user_id = $user_id";
+    $result = mysqli_query($conn,$query);
+    if (mysqli_num_rows($result) > 0) {
+        $data = array();
+        $reseps = array();
+        $ctr = 0;
+        while ($row = mysqli_fetch_array($result)) {
+            $data["resep_id"] = $row["resep_id"];
+            $data["resep_nama"] = $row["resep_nama"];
+            $data["resep_desk"] = $row["resep_desc"];
+            $data["chef_name"] = $row["user_viewedname"];
+            $data["chef_id"] = $row["user_id"];
+            $data["resep_isapproved"] = $row["resep_isapproved"];
+            $reseps[$ctr] = $data;
+            $ctr++;
+        }
+        mysqli_free_result($result);
+        $response["code"] = 1;
+        $response["message"] = "Get Data Successful";
+        $response["dataresep"] = $reseps;
+    } else {
+        $response["code"] = -1;
+        $response["message"] = "Tidak Ada Request Resep";
+    }
+    echo json_encode($response);
+}
 
 function cariresep($conn)
 {
@@ -557,4 +596,23 @@ function cariresep($conn)
     } else {
         echo "no";
     }
+    
+}
+function getbahan($conn){
+    $resep_id = $_POST["resep_id"];
+    $query = "SELECT b.bahan_nama,br.qty 
+    FROM bahanresep br LEFT JOIN bahans b ON br.bahan_id = b.bahan_id
+    WHERE br.resep_id = $resep_id";
+    $result = mysqli_query($conn,$query);
+    $data = array();
+    $bahan = array();
+    $ctr = 0;
+    while($row = mysqli_fetch_array($result)){
+        $data["bahan_nama"] = $row["bahan_nama"];
+        $data["qty"] = $row["qty"];
+        $bahan[$ctr] = $data;
+        $ctr++;
+    }
+    $response["bahanbahan"] = $bahan;
+    echo json_encode($response);
 }
