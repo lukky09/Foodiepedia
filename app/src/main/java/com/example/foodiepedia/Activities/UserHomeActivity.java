@@ -51,19 +51,20 @@ public class UserHomeActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (id) {
                     case R.id.menuHome:
-                        fragment = UserHomeFragment.newInstance(currentuser);
+                        fragment = UserHomeFragment.newInstance(currentuser,false);
                         break;
                     case R.id.menuListResep:
                         fragment = ResepFragment.newInstance(currentuser);
                         break;
                     case R.id.menuListUser:
+                        fragment = UserHomeFragment.newInstance(currentuser,true);
                         break;
                     default:
                         finish();
                 }
                 try {
                     getSupportFragmentManager().beginTransaction()
-                            .replace(binding.frameLayout.getId(), fragment)
+                            .replace(binding.frameLayoutuser.getId(), fragment)
                             .commit();
                 }catch (Exception e){
                     Log.e("UserHomeActivity", e.getMessage());

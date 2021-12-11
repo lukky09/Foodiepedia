@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -41,16 +42,20 @@ import java.util.Map;
 public class UserHomeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
     RecyclerView rv;
+    TextView tit;
     UserRecipeAdapter adapter;
     User curruser;
     ArrayList<Resep> reseps;
+    boolean isfollowing;
 
-    public static UserHomeFragment newInstance(User u) {
+    public static UserHomeFragment newInstance(User u,boolean b) {
         UserHomeFragment fragment = new UserHomeFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_PARAM1, u);
+        args.putBoolean(ARG_PARAM2,b);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,6 +65,7 @@ public class UserHomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             curruser = getArguments().getParcelable(ARG_PARAM1);
+            isfollowing = getArguments().getBoolean(ARG_PARAM2);
         }
     }
 
@@ -72,7 +78,18 @@ public class UserHomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        String id;
         rv = getActivity().findViewById(R.id.rvhome);
+        tit = getActivity().findViewById(R.id.tvtitt);
+        Toast.makeText(getActivity(), isfollowing+"", Toast.LENGTH_SHORT).show();
+        if(isfollowing) {
+            id = curruser.getUser_id() + "";
+            tit.setText("Resep koki favorit anda");
+        }
+        else {
+            id = "0";
+            tit.setText("Resep Terbaru");
+        }
         reseps = new ArrayList<>();
         StringRequest sreq = new StringRequest(Request.Method.POST, getString(R.string.url),
                 response -> {
@@ -99,7 +116,7 @@ public class UserHomeFragment extends Fragment {
                         rv.setLayoutManager(new LinearLayoutManager(getContext()));
                         rv.setAdapter(adapter);
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        System.out.println(e.getMessage());
                     }
                 }, error -> Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show()) {
             @Nullable
@@ -107,6 +124,7 @@ public class UserHomeFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> param = new HashMap<>();
                 param.put("func", "getresep");
+                param.put("id", id);
                 return param;
             }
         };

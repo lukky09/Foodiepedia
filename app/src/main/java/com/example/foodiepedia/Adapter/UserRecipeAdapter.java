@@ -83,7 +83,6 @@ public class UserRecipeAdapter extends RecyclerView.Adapter<UserRecipeAdapter.in
             StringRequest sreq = new StringRequest(Request.Method.POST, bind.getRoot().getContext().getString(R.string.url),
                     response -> {
                         float rate = Float.parseFloat(response);
-                        System.out.println(rate);
                         int i = 0;
                         while (rate>0) {
                             if (rate >= 1)
