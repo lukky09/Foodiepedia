@@ -48,7 +48,7 @@ public class UserHomeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                Fragment fragment = null;
+                Fragment fragment;
                 switch (id) {
                     case R.id.menuHome:
                         fragment = UserHomeFragment.newInstance(currentuser,false);
@@ -56,11 +56,9 @@ public class UserHomeActivity extends AppCompatActivity {
                     case R.id.menuListResep:
                         fragment = ResepFragment.newInstance(currentuser);
                         break;
-                    case R.id.menuListUser:
+                    default:
                         fragment = UserHomeFragment.newInstance(currentuser,true);
                         break;
-                    default:
-                        finish();
                 }
                 try {
                     getSupportFragmentManager().beginTransaction()
