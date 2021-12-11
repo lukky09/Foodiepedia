@@ -97,7 +97,6 @@ public class SearchActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println(response);
                         try {
                             ArrayList<Resep> r = new ArrayList<>();
                             JSONArray jar = new JSONArray(response);
