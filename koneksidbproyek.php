@@ -241,7 +241,15 @@ function addingtorecipe($conn)
 
 function getresep($conn)
 {
-    $sql = "SELECT * FROM reseps r, USER u WHERE u.user_id = r.user_id";
+    $id =  $_POST["id"];
+    if ($id <= 0) {
+        $sql = "SELECT * FROM reseps r, USER u WHERE u.user_id = r.user_id";
+    } else {
+        $sql = "SELECT * FROM reseps r, USER u ,user_follows uf
+        WHERE u.user_id = r.user_id
+        AND uf.user_id_follower = $id
+        AND uf.user_id = r.user_id";
+    }
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         $data = array();
