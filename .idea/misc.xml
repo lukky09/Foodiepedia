@@ -32,25 +32,21 @@
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/activity_admin_home.xml" value="0.1" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/activity_detail_resep.xml" value="0.22" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/activity_main.xml" value="0.12092391304347826" />
-        <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/fragment_admin_bahan_list.xml" value="0.22" />
+        <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/fragment_admin_bahan_list.xml" value="0.15" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/fragment_admin_resep_list.xml" value="0.22" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/fragment_admin_user_list.xml" value="0.18" />
-        <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/item_layout_bahan.xml" value="0.18" />
-        <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/item_layout_recipe_bahan_admin.xml" value="0.33" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/item_layout_recipe_detail_bahan_admin.xml" value="0.25" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/item_layout_recipe_request.xml" value="0.33" />
         <entry key="..\:/Users/DELL NB/AndroidStudioProjects/Foodiepedia/app/src/main/res/layout/item_layout_user.xml" value="0.25" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.3828125" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/activity_admin_home.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/activity_detail_resep.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/activity_detail_resep.xml" value="0.266304347826087" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/activity_register.xml" value="0.27943840579710144" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/activity_tambah_resep.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/activity_user_home.xml" value="0.27943840579710144" />
-        <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/fragment_favorites.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/fragment_resep.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/item_layout_m7_materi_money_entry.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/layout/item_layout_recipes_user.xml" value="0.24818840579710144" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/menu/menu_user.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/edyef/Desktop/iSTTS 19 - 23/Semester 5/Mobile Device Programming/Foodiepedia/app/src/main/res/menu/menu_user_nav.xml" value="0.20520833333333333" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.3828125" />
@@ -62,7 +58,7 @@
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/activity_admin_home.xml" value="0.25181159420289856" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/activity_detail_resep.xml" value="0.25" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/activity_edit_profile.xml" value="0.25815217391304346" />
-        <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/activity_register.xml" value="0.5" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/activity_search.xml" value="0.3428063943161634" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/activity_search_result.xml" value="0.20520833333333333" />
@@ -71,6 +67,7 @@
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/activity_user_home.xml" value="0.25181159420289856" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/fragment_admin_resep_list.xml" value="0.36666666666666664" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/fragment_admin_user_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/fragment_favorites.xml" value="0.20520833333333333" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/fragment_resep.xml" value="0.36666666666666664" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/fragment_user_home.xml" value="0.36666666666666664" />
         <entry key="..\:/androprojects/Foodiepedia/app/src/main/res/layout/item_layout_bahan.xml" value="0.24547101449275363" />
@@ -88,7 +85,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

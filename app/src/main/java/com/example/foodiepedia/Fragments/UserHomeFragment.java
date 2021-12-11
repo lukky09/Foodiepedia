@@ -83,12 +83,10 @@ public class UserHomeFragment extends Fragment {
         if(isfollowing) {
             id = curruser.getUser_id() + "";
             binding.tvtitt.setText("Resep koki favorit anda");
-            System.out.println("yes");
         }
         else {
             id = "0";
             binding.tvtitt.setText("Resep Terbaru");
-            System.out.println("non");
         }
         reseps = new ArrayList<>();
         StringRequest sreq = new StringRequest(Request.Method.POST, getString(R.string.url),

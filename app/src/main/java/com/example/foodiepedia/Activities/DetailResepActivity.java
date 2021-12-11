@@ -37,7 +37,7 @@ public class DetailResepActivity extends AppCompatActivity {
     Resep currresep;
     int rating = 0;
     String respond;
-    boolean isfollowing,isfavorite,isMine,isStarted;
+    boolean isfollowing, isfavorite, isMine, isStarted;
     ActivityDetailResepBinding binding;
     Menu option;
     MenuItem optFav;
@@ -52,46 +52,46 @@ public class DetailResepActivity extends AppCompatActivity {
         curruser = getIntent().getParcelableExtra("u");
         currresep = getIntent().getParcelableExtra("r");
 
-        if(curruser.getUser_id() == currresep.getIduser()){
-            binding.lldetail.removeViewAt(4);
+        if (curruser.getUser_id() == currresep.getIduser()) {
+            binding.lldetail.removeViewAt(6);
             binding.ratingBar.setIsIndicator(true);
         }
-        StringRequest request = new StringRequest(Request.Method.POST,getString(R.string.url),
+        StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.url),
                 response -> {
                     try {
-                    JSONArray jar = new JSONObject(response).getJSONArray("bahanbahan");
-                    String listBahan = "";
-                    for (int i = 0; i < jar.length(); i++) {
-                        JSONObject job = jar.getJSONObject(i);
-                        String Bahan = job.getString("bahan_nama") + " - " + job.getInt("qty");
-                        listBahan += Bahan + "\n";
+                        JSONArray jar = new JSONObject(response).getJSONArray("bahanbahan");
+                        String listBahan = "";
+                        for (int i = 0; i < jar.length(); i++) {
+                            JSONObject job = jar.getJSONObject(i);
+                            String Bahan = job.getString("bahan_nama") + " - " + job.getInt("qty");
+                            listBahan += Bahan + "\n";
+                        }
+                        binding.tvListBahan.setText(listBahan);
+                    } catch (JSONException e) {
+                        System.out.println(e.getMessage());
                     }
-                    binding.tvListBahan.setText(listBahan);
-                    }catch(JSONException e){
-                        e.printStackTrace();
-                    }
-                },error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show()){
+                }, error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show()) {
             @Nullable
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> param = new HashMap<>();
-                param.put("func","getbahan");
-                param.put("resep_id",currresep.getIdresep() + "");
+                Map<String, String> param = new HashMap<>();
+                param.put("func", "getbahan");
+                param.put("resep_id", currresep.getIdresep() + "");
                 return param;
             }
         };
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
         binding.tvnamaresepdetail.setText(currresep.getNama_resep());
-        binding.tvchefdetail.setText("Chef : "+currresep.getChef_resep());
-        binding.tvdeskdetail.setText("Deskripsi :\n"+currresep.getDesk_resep().replaceAll("<br />", "\n"));
+        binding.tvchefdetail.setText("Chef : " + currresep.getChef_resep());
+        binding.tvdeskdetail.setText("Deskripsi :\n" + currresep.getDesk_resep().replaceAll("<br />", "\n"));
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        checkFavorite(menuInflater,menu); // untuk mengecek apakah user ini sudah melakukan favorites pada resep ini atau blm
+        checkFavorite(menuInflater, menu); // untuk mengecek apakah user ini sudah melakukan favorites pada resep ini atau blm
         optFav = option.findItem(R.id.optFav);
         StringRequest sreq = new StringRequest(Request.Method.POST, getString(R.string.url),
                 response -> {
@@ -99,11 +99,11 @@ public class DetailResepActivity extends AppCompatActivity {
                         JSONObject job = new JSONObject(response);
 //                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                         rating = job.getInt("rat");
-                        if(job.getInt("fav") == 1) {
+                        if (job.getInt("fav") == 1) {
                             isfavorite = true;
-                            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_favorite_24));
+                            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_favorite_24));
                         }
-                        if(job.getInt("fol") == 1) isfollowing = true;
+                        if (job.getInt("fol") == 1) isfollowing = true;
                         else isfollowing = false;
                         rating = job.getInt("rat");
                         binding.ratingBar.setRating(rating);
@@ -124,7 +124,7 @@ public class DetailResepActivity extends AppCompatActivity {
         };
         RequestQueue rqueue = Volley.newRequestQueue(this);
         rqueue.add(sreq);
-        if(rating == 0){
+        if (rating == 0) {
             rating = -1;
         }
 
@@ -132,15 +132,15 @@ public class DetailResepActivity extends AppCompatActivity {
 
         binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b){
-                if(ratingBar.getRating() != 0){
-                    if(rating == 0){
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                if (ratingBar.getRating() != 0) {
+                    if (rating == 0) {
                         rating = Math.round(ratingBar.getRating());
-                        insertRating(rating,curruser,currresep);
-                    }else{
-                        if(rating > 0 && isStarted){
+                        insertRating(rating, curruser, currresep);
+                    } else {
+                        if (rating > 0 && isStarted) {
                             rating = Math.round(ratingBar.getRating());
-                            updateRating(rating,curruser,currresep);
+                            updateRating(rating, curruser, currresep);
                         }
                         rating = Math.round(ratingBar.getRating());
                     }
@@ -155,31 +155,31 @@ public class DetailResepActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Toast.makeText(getApplicationContext(), isfavorite + "", Toast.LENGTH_SHORT).show();
-        if(isfavorite){
-            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_favorite_border_24));
+        if (isfavorite) {
+            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_favorite_border_24));
             isfavorite = false;
             insertFavorite("delete");
-        }else{
-            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_baseline_favorite_24));
+        } else {
+            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_favorite_24));
             isfavorite = true;
             insertFavorite("insert");
         }
         return true;
     }
 
-    public void insertRating(int rating, User user, Resep resep){
-        StringRequest request = new StringRequest(Request.Method.POST,getString(R.string.url),
-                response ->{
+    public void insertRating(int rating, User user, Resep resep) {
+        StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.url),
+                response -> {
                     Toast.makeText(DetailResepActivity.this, response, Toast.LENGTH_SHORT).show();
-                },error -> Toast.makeText(DetailResepActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()){
+                }, error -> Toast.makeText(DetailResepActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
             @Nullable
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> param = new HashMap<>();
-                param.put("func","insertrating");
-                param.put("rating",rating + "");
-                param.put("userid",user.getUser_id() + "");
-                param.put("resepid",resep.getIdresep() + "");
+                param.put("func", "insertrating");
+                param.put("rating", rating + "");
+                param.put("userid", user.getUser_id() + "");
+                param.put("resepid", resep.getIdresep() + "");
                 return param;
             }
         };
@@ -187,19 +187,19 @@ public class DetailResepActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    public void updateRating(int rating,User user,Resep resep){
-        StringRequest request = new StringRequest(Request.Method.POST,getString(R.string.url),
-                response ->{
+    public void updateRating(int rating, User user, Resep resep) {
+        StringRequest request = new StringRequest(Request.Method.POST, getString(R.string.url),
+                response -> {
 //                    Toast.makeText(DetailResepActivity.this, response, Toast.LENGTH_SHORT).show();
-                },error -> Toast.makeText(DetailResepActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()){
+                }, error -> Toast.makeText(DetailResepActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
             @Nullable
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> param = new HashMap<>();
-                param.put("func","updaterating");
-                param.put("rating",rating + "");
-                param.put("userid",user.getUser_id() + "");
-                param.put("resepid",resep.getIdresep() + "");
+                param.put("func", "updaterating");
+                param.put("rating", rating + "");
+                param.put("userid", user.getUser_id() + "");
+                param.put("resepid", resep.getIdresep() + "");
                 return param;
             }
         };
@@ -210,9 +210,9 @@ public class DetailResepActivity extends AppCompatActivity {
     public void follow(View view) {
         StringRequest sreq = new StringRequest(Request.Method.POST, getString(R.string.url),
                 response -> {
-                    if (response.equals("1")){
+                    if (response.equals("1")) {
                         isfollowing = true;
-                    }else{
+                    } else {
                         isfollowing = false;
                     }
                 }, error -> Toast.makeText(DetailResepActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
@@ -230,54 +230,54 @@ public class DetailResepActivity extends AppCompatActivity {
         rqueue.add(sreq);
     }
 
-    public void checkFavorite(MenuInflater menuInflater,Menu menu){
+    public void checkFavorite(MenuInflater menuInflater, Menu menu) {
         isMine = false;
-        StringRequest req = new StringRequest(Request.Method.POST,getString(R.string.url),
+        StringRequest req = new StringRequest(Request.Method.POST, getString(R.string.url),
                 response -> {
-                    if(response.toString().equalsIgnoreCase("favorites")){
+                    if (response.toString().equalsIgnoreCase("favorites")) {
                         isfavorite = true;
-                    }else{
+                    } else {
                         isfavorite = false;
-                        if(response.toString().equalsIgnoreCase("resep sendiri")){
+                        if (response.toString().equalsIgnoreCase("resep sendiri")) {
                             isMine = true;
                         }
                     }
-                },error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show()){
+                }, error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show()) {
             @Nullable
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> param = new HashMap<>();
-                param.put("func","getfavorites");
-                param.put("user_id",curruser.getUser_id() + "");
-                param.put("resep_id",currresep.getIdresep() + "");
+                Map<String, String> param = new HashMap<>();
+                param.put("func", "getfavorites");
+                param.put("user_id", curruser.getUser_id() + "");
+                param.put("resep_id", currresep.getIdresep() + "");
                 return param;
             }
         };
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(req);
 
-        if(!isMine){
-            menuInflater.inflate(R.menu.option_menu_detail,menu);
+        if (!isMine) {
+            menuInflater.inflate(R.menu.option_menu_detail, menu);
             option = menu;
         }
 
     }
 
-    public void insertFavorite(String query){
-        StringRequest req = new StringRequest(Request.Method.POST,getString(R.string.url),
+    public void insertFavorite(String query) {
+        StringRequest req = new StringRequest(Request.Method.POST, getString(R.string.url),
                 response -> {
                     Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                },error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show()){
-                @Nullable
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> param = new HashMap<>();
-                    param.put("func","insertfavorites");
-                    param.put("query",query);
-                    param.put("user_id",curruser.getUser_id() + "");
-                    param.put("resep_id",currresep.getIdresep() + "");
-                    return param;
-                }
+                }, error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show()) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> param = new HashMap<>();
+                param.put("func", "insertfavorites");
+                param.put("query", query);
+                param.put("user_id", curruser.getUser_id() + "");
+                param.put("resep_id", currresep.getIdresep() + "");
+                return param;
+            }
         };
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(req);

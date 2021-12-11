@@ -40,6 +40,7 @@ public class SearchResultActivity extends AppCompatActivity {
                 Intent i = new Intent(SearchResultActivity.this, DetailResepActivity.class);
                 i.putExtra("u",curruser);
                 i.putExtra("r",r);
+                startActivity(i);
                 finish();
             }
         });
