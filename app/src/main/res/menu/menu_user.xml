@@ -8,6 +8,11 @@
         android:title="Item"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/itemusernotif"
+        android:icon="@drawable/ic_baseline_notifications_24"
+        android:title="Notifications"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/itemuseradd"
         android:icon="@drawable/ic_baseline_add_24"
         android:title="Add Recipe"

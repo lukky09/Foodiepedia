@@ -127,6 +127,11 @@ public class UserHomeActivity extends AppCompatActivity {
                 i.putExtra("u", currentuser);
                 startActivityForResult(i, 0);
                 break;
+            case R.id.itemusernotif:
+                i = new Intent(this, NotificationActivity.class);
+                i.putExtra("u", currentuser);
+                startActivityForResult(i, 0);
+                break;
             default:
                 finish();
         }

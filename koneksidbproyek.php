@@ -92,6 +92,12 @@ switch ($_POST["func"]) {
     case "accbahanadmin":
         accbahanadmin($conn);
         break;
+    case "getmessages":
+        getmess($conn);
+        break;
+        case "delmessages":
+            delmess($conn);
+            break;
     default:
         echo "function tidak ada";
         break;
@@ -308,7 +314,7 @@ function getresepdetail($conn)
     $id = $_POST["user"];
     $idfud = $_POST["food"];
     $idchef = $_POST["chef"];
-    
+
     $sql = "SELECT * FROM user_favorites WHERE user_id = $id and resep_id = $idfud";
     if (mysqli_num_rows(mysqli_query($conn, $sql)) > 0) $response["fav"] = 1;
     else $response["fav"] = 0;
@@ -316,12 +322,12 @@ function getresepdetail($conn)
     $sql = "SELECT * FROM user_follows WHERE user_id = $idchef and user_id_follower = $id";
     if (mysqli_num_rows(mysqli_query($conn, $sql)) > 0) $response["fol"] = 1;
     else $response["fol"] = 0;
-    
+
     $sql = "SELECT * FROM user_rating WHERE user_id = $id and resep_id = $idfud";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) $response["rat"] = mysqli_fetch_array($result)[2];
     else $response["rat"] = 0;
-    
+
     echo json_encode($response);
 }
 
@@ -538,12 +544,13 @@ function insertfavorites($conn)
     }
     echo $return;
 }
-function getListFavorites($conn){
+function getListFavorites($conn)
+{
     $user_id = $_POST["userid"];
     $query = "SELECT uf.resep_id,r.resep_nama,r.resep_desc,u.user_viewedname,u.user_id,r.resep_isapproved
     FROM USER u LEFT JOIN user_favorites uf ON u.user_id = uf.user_id LEFT JOIN reseps r ON uf.resep_id = r.resep_id 
     WHERE u.user_id = $user_id";
-    $result = mysqli_query($conn,$query);
+    $result = mysqli_query($conn, $query);
     if (mysqli_num_rows($result) > 0) {
         $data = array();
         $reseps = array();
@@ -603,18 +610,18 @@ function cariresep($conn)
     } else {
         echo "no";
     }
-    
 }
-function getbahan($conn){
+function getbahan($conn)
+{
     $resep_id = $_POST["resep_id"];
     $query = "SELECT b.bahan_nama,br.qty 
     FROM bahanresep br LEFT JOIN bahans b ON br.bahan_id = b.bahan_id
     WHERE br.resep_id = $resep_id";
-    $result = mysqli_query($conn,$query);
+    $result = mysqli_query($conn, $query);
     $data = array();
     $bahan = array();
     $ctr = 0;
-    while($row = mysqli_fetch_array($result)){
+    while ($row = mysqli_fetch_array($result)) {
         $data["bahan_nama"] = $row["bahan_nama"];
         $data["qty"] = $row["qty"];
         $bahan[$ctr] = $data;
@@ -624,15 +631,16 @@ function getbahan($conn){
     echo json_encode($response);
 }
 
-function getbahanadmin($conn){
+function getbahanadmin($conn)
+{
     $sql = "SELECT * FROM bahans";
     $result = mysqli_query($conn, $sql);
 
-    if (mysqli_num_rows($result) > 0){
+    if (mysqli_num_rows($result) > 0) {
         $data = array();
         $bahan = array();
         $ctr = 0;
-        while($row = mysqli_fetch_array($result)){
+        while ($row = mysqli_fetch_array($result)) {
             $data["id_bahan"] = $row["bahan_id"];
             $data["bahan_nama"] = $row["bahan_nama"];
             $data["statusbahan"] = $row["bahan_isapproved"];
@@ -642,27 +650,52 @@ function getbahanadmin($conn){
         $response["code"] = 1;
         $response["message"] = "Request Bahan Sukses";
         $response["bahan"] = $bahan;
-    }
-    else{
+    } else {
         $response["code"] = -1;
         $response["message"] = "Tidak Ada Request Bahan";
     }
     echo json_encode($response);
 }
 
-function accbahanadmin($conn){
+function accbahanadmin($conn)
+{
     $id = $_POST["bahan_id"];
     $sql = "UPDATE bahans SET bahan_isapproved = 1 WHERE bahan_id = $id";
     $result = mysqli_query($conn, $sql);
 
-    if ($result){
+    if ($result) {
         $response["code"] = 1;
         $response["message"] = "Bahan Berhasil Ditambahkan";
-    }
-    else{
+    } else {
         $response["code"] = -1;
         $response["message"] = "Bahan Gagal Ditambahkan";
     }
 
     echo json_encode($response);
+}
+
+function getmess($conn)
+{
+    $id = $_POST["id"];
+    $sql = "SELECT * FROM user_message WHERE user_to = $id";
+    $result = mysqli_query($conn, $sql);
+
+    while ($row = mysqli_fetch_array($result)) {
+        $data["secs"] = strtotime(date("Y-m-d H:i:s")) - strtotime($row["message_time"]);
+        if ($row["user_from"] > 0) {
+            $name = mysqli_fetch_row(mysqli_query($conn, "SELECT user_viewedname FROM user WHERE user_id = " . $row["user_from"]));
+            $data["mess"] = $name . " says: " . $row["user_message"];
+        } else {
+            $data["mess"] = $row["user_message"];
+        }
+        $response[] = $data;
+    }
+
+    echo json_encode($response);
+}
+
+function delmess($conn)
+{
+    $id = $_POST["id"];
+    mysqli_query($conn, "DELETE FROM user_message WHERE user_to = $id");
 }

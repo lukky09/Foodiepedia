@@ -96,8 +96,8 @@ CREATE TABLE `user` (
 
 insert  into `user`(`user_id`,`user_username`,`user_viewedname`,`user_password`,`user_isadmin`,`user_isbanned`) values 
 (1,'a','Coba','a',0,0),
-(2,'bb','','bb',0,0),
-(3,'admin','','admin312',1,0),
+(2,'bb','Bima','bb',0,0),
+(3,'admin','Admin','admin312',1,0),
 (4,'boedi','BoediGakTerlaluManta','123qweasd',0,0),
 (5,'bca','BCA','123456789',0,0);
 
@@ -123,6 +123,24 @@ CREATE TABLE `user_follows` (
 
 /*Data for the table `user_follows` */
 
+insert  into `user_follows`(`user_id`,`user_id_follower`) values 
+(1,2);
+
+/*Table structure for table `user_message` */
+
+DROP TABLE IF EXISTS `user_message`;
+
+CREATE TABLE `user_message` (
+  `message_id` int(20) NOT NULL AUTO_INCREMENT,
+  `user_message` varchar(255) NOT NULL,
+  `user_from` int(20) NOT NULL,
+  `user_to` int(20) NOT NULL,
+  `message_time` varchar(10) NOT NULL,
+  PRIMARY KEY (`message_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `user_message` */
+
 /*Table structure for table `user_rating` */
 
 DROP TABLE IF EXISTS `user_rating`;
@@ -134,6 +152,10 @@ CREATE TABLE `user_rating` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `user_rating` */
+
+insert  into `user_rating`(`user_id`,`resep_id`,`rating`) values 
+(2,1,4),
+(5,1,3);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
