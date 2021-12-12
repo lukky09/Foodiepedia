@@ -2,6 +2,7 @@ package com.example.foodiepedia.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.core.content.ContextCompat;
@@ -85,8 +86,12 @@ public class DetailResepActivity extends AppCompatActivity {
         binding.tvnamaresepdetail.setText(currresep.getNama_resep());
         binding.tvchefdetail.setText("Chef : " + currresep.getChef_resep());
         binding.tvdeskdetail.setText("Deskripsi :\n" + currresep.getDesk_resep().replaceAll("<br />", "\n"));
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.show();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Kembali ke beranda");
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -127,7 +132,6 @@ public class DetailResepActivity extends AppCompatActivity {
         if (rating == 0) {
             rating = -1;
         }
-
         isStarted = false;
 
         binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -155,14 +159,18 @@ public class DetailResepActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Toast.makeText(getApplicationContext(), isfavorite + "", Toast.LENGTH_SHORT).show();
-        if (isfavorite) {
-            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_favorite_border_24));
-            isfavorite = false;
-            insertFavorite("delete");
-        } else {
-            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_favorite_24));
-            isfavorite = true;
-            insertFavorite("insert");
+        if(item.getItemId()==R.id.optFav) {
+            if (isfavorite) {
+                optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_favorite_border_24));
+                isfavorite = false;
+                insertFavorite("delete");
+            } else {
+                optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_favorite_24));
+                isfavorite = true;
+                insertFavorite("insert");
+            }
+        }else{
+            finish();
         }
         return true;
     }

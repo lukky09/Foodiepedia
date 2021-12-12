@@ -1,9 +1,11 @@
 package com.example.foodiepedia.Activities;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -42,6 +44,16 @@ public class MainActivity extends AppCompatActivity {
         //etpass = findViewById(R.id.etloginpassword);
         adminusername = "admin";
         adminpass = "admin";
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
+        SharedPreferences sharedPref = this.getSharedPreferences("setting", this.MODE_PRIVATE);
+        if (sharedPref.getInt("id", -69) > 0) {
+            Intent i = new Intent(MainActivity.this, UserHomeActivity.class);
+            i.putExtra("id",sharedPref.getInt("id", -69));
+            startActivity(i);
+            finish();
+        }
     }
 
     public void toregis(View view) {
@@ -74,9 +86,14 @@ public class MainActivity extends AppCompatActivity {
                                     Intent i = new Intent(MainActivity.this, AdminHomeActivity.class);
                                     startActivity(i);
                                 } else {
+                                    SharedPreferences sharedPref = this.getSharedPreferences("setting",this.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putInt("id",iduser);
+                                    editor.apply();
                                     Intent i = new Intent(MainActivity.this, UserHomeActivity.class);
                                     i.putExtra("id",iduser);
                                     startActivity(i);
+                                    finish();
                                 }
                                 binding.etloginusername.setText("");
                                 binding.etloginpassword.setText("");

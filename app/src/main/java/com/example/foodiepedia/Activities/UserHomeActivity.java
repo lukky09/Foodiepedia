@@ -3,10 +3,14 @@ package com.example.foodiepedia.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -37,6 +41,7 @@ public class UserHomeActivity extends AppCompatActivity {
 
     User currentuser;
     ActivityUserHomeBinding binding;
+    Menu m;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +90,7 @@ public class UserHomeActivity extends AppCompatActivity {
                         currentuser = new User(getIntent().getIntExtra("id", -1), job.getString("nama"), job.getString("pass"));
                         binding.navBar.setSelectedItemId(R.id.menuListResep);
                         binding.navBar.setSelectedItemId(R.id.menuHome);
+                        changebellcolor();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -102,9 +108,36 @@ public class UserHomeActivity extends AppCompatActivity {
         rqueue.add(sreq);
     }
 
+    void changebellcolor(){
+        StringRequest sreq = new StringRequest(Request.Method.POST, getString(R.string.url),
+                response -> {
+                    int eh = Integer.parseInt(response);
+                    Drawable drawable = m.findItem(R.id.itemusernotif).getIcon();
+                    drawable = DrawableCompat.wrap(drawable);
+                    if(eh>0){
+                        DrawableCompat.setTint(drawable, ContextCompat.getColor(this,R.color.blu));
+                    }else{
+                        DrawableCompat.setTint(drawable, ContextCompat.getColor(this,R.color.white));
+                    }
+                    m.findItem(R.id.itemusernotif).setIcon(drawable);
+                }, error -> Toast.makeText(UserHomeActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> param = new HashMap<>();
+                param.put("func", "havemsg");
+                param.put("id", currentuser.getUser_id() + "");
+                return param;
+            }
+        };
+        RequestQueue rqueue = Volley.newRequestQueue(this);
+        rqueue.add(sreq);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_user, menu);
+        m = menu;
         return true;
     }
 
@@ -133,7 +166,14 @@ public class UserHomeActivity extends AppCompatActivity {
                 startActivityForResult(i, 0);
                 break;
             default:
+                SharedPreferences sharedPref = this.getSharedPreferences("setting",this.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putInt("id",-1);
+                editor.apply();
+                i = new Intent(this, MainActivity.class);
+                startActivity(i);
                 finish();
+                break;
         }
         return true;
     }

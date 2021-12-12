@@ -1,6 +1,8 @@
 package com.example.foodiepedia.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,7 +54,19 @@ public class NotificationActivity extends AppCompatActivity {
         rv = findViewById(R.id.rvmess);
         curruser = getIntent().getParcelableExtra("u");
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.show();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Kembali ke beranda");
+
         getmessages();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        finish();
+        return super.onOptionsItemSelected(item);
     }
 
     void getmessages(){

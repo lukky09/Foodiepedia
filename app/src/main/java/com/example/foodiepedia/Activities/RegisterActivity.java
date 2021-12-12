@@ -1,6 +1,7 @@
 package com.example.foodiepedia.Activities;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -30,6 +31,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         registerBinding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(registerBinding.getRoot());
     }
