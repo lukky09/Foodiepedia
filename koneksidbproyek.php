@@ -95,9 +95,12 @@ switch ($_POST["func"]) {
     case "getmessages":
         getmess($conn);
         break;
-        case "delmessages":
-            delmess($conn);
-            break;
+    case "delmessages":
+        delmess($conn);
+        break;
+    case "havemsg":
+        havemessage($conn);
+        break;
     default:
         echo "function tidak ada";
         break;
@@ -217,7 +220,7 @@ function updateuser($conn)
 
 function getingredients($conn)
 {
-    if ($_POST["verified"] = 0) {
+    if ($_POST["verified"] == 0) {
         $result = mysqli_query($conn, "SELECT * FROM bahans ORDER BY bahan_nama ASC");
     } else {
         $result = mysqli_query($conn, "SELECT * FROM bahans WHERE bahan_isapproved = 1 ORDER BY bahan_nama ASC");
@@ -261,12 +264,13 @@ function getresep($conn)
 {
     $id =  $_POST["id"];
     if ($id <= 0) {
-        $sql = "SELECT * FROM reseps r, USER u WHERE u.user_id = r.user_id";
+        $sql = "SELECT * FROM reseps r, USER u WHERE u.user_id = r.user_id AND resep_isapproved = 1";
     } else {
         $sql = "SELECT * FROM reseps r, USER u ,user_follows uf
         WHERE u.user_id = r.user_id
         AND uf.user_id_follower = $id
-        AND uf.user_id = r.user_id";
+        AND uf.user_id = r.user_id
+        AND r.resep_isapproved = 1";
     }
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
@@ -663,6 +667,23 @@ function accbahanadmin($conn)
     $sql = "UPDATE bahans SET bahan_isapproved = 1 WHERE bahan_id = $id";
     $result = mysqli_query($conn, $sql);
 
+    $iyah = mysqli_query($conn, "SELECT r.resep_id, r.resep_nama,r.user_id FROM bahanresep br,reseps r WHERE br.bahan_id = $id AND br.resep_id = r.resep_id");
+    while ($row = mysqli_fetch_array($iyah)) {
+        $daftar[] =  (int)$row[0];
+        $nama[] = strval($row[1]);
+        $iduser[] =  (int)$row[2];
+    }
+
+    if (isset($daftar)) {
+        for ($i = 0; $i < count($daftar); $i++) {
+            $avg = mysqli_fetch_array(mysqli_query($conn, "SELECT AVG(bahan_isapproved) from bahanresep br,bahans b where br.resep_id = $daftar[$i] AND br.bahan_id = b.bahan_id"))[0];
+            if ($avg == 1) {
+                mysqli_query($conn, "UPDATE reseps SET resep_isapproved = 1 WHERE resep_id = $daftar[$i]");
+                mysqli_query($conn, "INSERT INTO user_message (user_message,user_from, user_to,message_time) VALUES ('Menu " . $nama[$i] . " anda telah diapprove dan ditampilkan',0, $iduser[$i],'" . date("Y-m-d H:i:s") . "')");
+            }
+        }
+    }
+
     if ($result) {
         $response["code"] = 1;
         $response["message"] = "Bahan Berhasil Ditambahkan";
@@ -698,4 +719,10 @@ function delmess($conn)
 {
     $id = $_POST["id"];
     mysqli_query($conn, "DELETE FROM user_message WHERE user_to = $id");
+}
+
+function havemessage($conn)
+{
+    $id = $_POST["id"];
+    echo mysqli_fetch_row(mysqli_query($conn, "SELECT count(*) FROM user_message WHERE user_to = $id"))[0];
 }

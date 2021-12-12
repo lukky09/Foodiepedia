@@ -85,6 +85,7 @@ public class AdminBahanListFragment extends Fragment {
                             @Override
                             public void onResponse(String response) {
                                 try {
+                                    System.out.println(response);
                                     JSONObject jsonObject = new JSONObject(response);
                                     int code = jsonObject.getInt("code");
                                     if (code == 1){
@@ -95,9 +96,10 @@ public class AdminBahanListFragment extends Fragment {
                                         }
                                         adapter.notifyDataSetChanged();
                                     }
+
                                     Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 } catch (JSONException e) {
-                                    e.printStackTrace();
+                                    System.out.println(e.getMessage());
                                 }
                             }
                         },

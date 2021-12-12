@@ -33,7 +33,10 @@ insert  into `bahanresep`(`bahan_id`,`resep_id`,`qty`) values
 (3,2,11),
 (1,2,2),
 (4,3,3),
-(1,4,1);
+(1,4,1),
+(7,5,1),
+(5,6,2),
+(7,6,1);
 
 /*Table structure for table `bahans` */
 
@@ -68,7 +71,7 @@ CREATE TABLE `reseps` (
   `resep_desc` varchar(300) NOT NULL,
   `resep_isapproved` smallint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`resep_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `reseps` */
 
@@ -76,7 +79,9 @@ insert  into `reseps`(`resep_id`,`user_id`,`resep_nama`,`resep_desc`,`resep_isap
 (1,1,'Cobaresep','kenthang',1),
 (2,1,'ExtraExtra','ahii<br />manyedihkan',1),
 (3,1,'Huew','ini kentang<br />hiyahiya',1),
-(4,1,'Blep','blep?<br />blepp!<br />blpelblep<br />',1);
+(4,1,'Blep','blep?<br />blepp!<br />blpelblep<br />',1),
+(5,1,'Coba1','doomi1',0),
+(6,1,'Coba2','Doomi 2',0);
 
 /*Table structure for table `user` */
 
@@ -96,8 +101,8 @@ CREATE TABLE `user` (
 
 insert  into `user`(`user_id`,`user_username`,`user_viewedname`,`user_password`,`user_isadmin`,`user_isbanned`) values 
 (1,'a','Coba','a',0,0),
-(2,'bb','Bima','bb',0,0),
-(3,'admin','Admin','admin312',1,0),
+(2,'bb','','bb',0,0),
+(3,'admin','','admin312',1,0),
 (4,'boedi','BoediGakTerlaluManta','123qweasd',0,0),
 (5,'bca','BCA','123456789',0,0);
 
@@ -135,9 +140,9 @@ CREATE TABLE `user_message` (
   `user_message` varchar(255) NOT NULL,
   `user_from` int(20) NOT NULL,
   `user_to` int(20) NOT NULL,
-  `message_time` varchar(10) NOT NULL,
+  `message_time` varchar(20) NOT NULL,
   PRIMARY KEY (`message_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `user_message` */
 
