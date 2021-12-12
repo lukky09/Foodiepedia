@@ -4,20 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.core.content.ContextCompat;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.foodiepedia.Data.Resep;
@@ -95,63 +98,65 @@ public class DetailResepActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        checkFavorite(menuInflater, menu); // untuk mengecek apakah user ini sudah melakukan favorites pada resep ini atau blm
-        optFav = option.findItem(R.id.optFav);
-        StringRequest sreq = new StringRequest(Request.Method.POST, getString(R.string.url),
-                response -> {
-                    try {
-                        JSONObject job = new JSONObject(response);
+        if(curruser.getUser_id()!=currresep.getIduser()) {
+            MenuInflater menuInflater = getMenuInflater();
+            checkFavorite(menuInflater, menu); // untuk mengecek apakah user ini sudah melakukan favorites pada resep ini atau blm
+            optFav = option.findItem(R.id.optFav);
+            StringRequest sreq = new StringRequest(Request.Method.POST, getString(R.string.url),
+                    response -> {
+                        try {
+                            JSONObject job = new JSONObject(response);
 //                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                        rating = job.getInt("rat");
-                        if (job.getInt("fav") == 1) {
-                            isfavorite = true;
-                            optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_favorite_24));
+                            rating = job.getInt("rat");
+                            if (job.getInt("fav") == 1) {
+                                isfavorite = true;
+                                optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_favorite_24));
+                            }
+                            if (job.getInt("fol") == 1) isfollowing = true;
+                            else isfollowing = false;
+                            rating = job.getInt("rat");
+                            binding.ratingBar.setRating(rating);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        if (job.getInt("fol") == 1) isfollowing = true;
-                        else isfollowing = false;
-                        rating = job.getInt("rat");
-                        binding.ratingBar.setRating(rating);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }, error -> Toast.makeText(DetailResepActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> param = new HashMap<>();
-                param.put("func", "getresepdets");
-                param.put("user", curruser.getUser_id() + "");
-                param.put("food", currresep.getIdresep() + "");
-                param.put("chef", currresep.getIduser() + "");
-                return param;
-            }
-        };
-        RequestQueue rqueue = Volley.newRequestQueue(this);
-        rqueue.add(sreq);
-        if (rating == 0) {
-            rating = -1;
-        }
-        isStarted = false;
-
-        binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                if (ratingBar.getRating() != 0) {
-                    if (rating == 0) {
-                        rating = Math.round(ratingBar.getRating());
-                        insertRating(rating, curruser, currresep);
-                    } else {
-                        if (rating > 0 && isStarted) {
-                            rating = Math.round(ratingBar.getRating());
-                            updateRating(rating, curruser, currresep);
-                        }
-                        rating = Math.round(ratingBar.getRating());
-                    }
+                    }, error -> Toast.makeText(DetailResepActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
+                @Nullable
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> param = new HashMap<>();
+                    param.put("func", "getresepdets");
+                    param.put("user", curruser.getUser_id() + "");
+                    param.put("food", currresep.getIdresep() + "");
+                    param.put("chef", currresep.getIduser() + "");
+                    return param;
                 }
-                isStarted = true;
+            };
+            RequestQueue rqueue = Volley.newRequestQueue(this);
+            rqueue.add(sreq);
+            if (rating == 0) {
+                rating = -1;
             }
-        });
+            isStarted = false;
+
+            binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                    if (ratingBar.getRating() != 0) {
+                        if (rating == 0) {
+                            rating = Math.round(ratingBar.getRating());
+                            insertRating(rating, curruser, currresep);
+                        } else {
+                            if (rating > 0 && isStarted) {
+                                rating = Math.round(ratingBar.getRating());
+                                updateRating(rating, curruser, currresep);
+                            }
+                            rating = Math.round(ratingBar.getRating());
+                        }
+                    }
+                    isStarted = true;
+                }
+            });
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -159,7 +164,7 @@ public class DetailResepActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Toast.makeText(getApplicationContext(), isfavorite + "", Toast.LENGTH_SHORT).show();
-        if(item.getItemId()==R.id.optFav) {
+        if (item.getItemId() == R.id.optFav) {
             if (isfavorite) {
                 optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_favorite_border_24));
                 isfavorite = false;
@@ -169,7 +174,51 @@ public class DetailResepActivity extends AppCompatActivity {
                 isfavorite = true;
                 insertFavorite("insert");
             }
-        }else{
+        } else if (item.getItemId() == R.id.optMsg) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+            alert.setTitle("Request Bahan");
+            alert.setMessage("Nanti bahan akan diaccept oleh admin");
+
+            final EditText input = new EditText(this);
+            alert.setView(input);
+
+            alert.setPositiveButton("Request", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String in = input.getText().toString().trim();
+                    if (in.length() == 0) {
+                        Toast.makeText(DetailResepActivity.this, "Pesan tidak boleh kosong", Toast.LENGTH_SHORT).show();
+                    } else {
+                        StringRequest sreq = new StringRequest(
+                                Request.Method.POST,
+                                getString(R.string.url),
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        Toast.makeText(DetailResepActivity.this, response, Toast.LENGTH_SHORT).show();
+                                    }
+                                },
+                                error -> Toast.makeText(DetailResepActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
+                            @Nullable
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Map<String, String> param = new HashMap<>();
+                                param.put("func", "makemsg");
+                                param.put("idasal", curruser.getUser_id()+"");
+                                param.put("idtuju", currresep.getIduser()+"");
+                                param.put("msg", in);
+                                return param;
+                            }
+                        };
+                        RequestQueue rqueue = Volley.newRequestQueue(DetailResepActivity.this);
+                        rqueue.add(sreq);
+                    }
+
+                }
+            });
+
+            alert.show();
+        } else {
             finish();
         }
         return true;

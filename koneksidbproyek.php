@@ -101,6 +101,9 @@ switch ($_POST["func"]) {
     case "havemsg":
         havemessage($conn);
         break;
+    case "makemsg":
+        makemessage($conn);
+        break;
     default:
         echo "function tidak ada";
         break;
@@ -302,6 +305,10 @@ function deleteresep($conn)
 {
     $id = $_POST["id"];
     $sql = "DELETE from reseps WHERE resep_id = $id";
+    $query1 = mysqli_query($conn, "SELECT * FROM reseps WHERE resep_id = $id");
+    while ($row = mysqli_fetch_row($query1)) {
+        mysqli_query($conn, "INSERT INTO user_message (user_message,user_from, user_to,message_time) VALUES ('Menu " . $row[2] . " anda telah dihapus oleh Admin',0, $row[1],'" . date("Y-m-d H:i:s") . "')");
+    }
     $result = mysqli_query($conn, $sql);
     if ($result) {
         $response["code"] = 1;
@@ -704,8 +711,8 @@ function getmess($conn)
     while ($row = mysqli_fetch_array($result)) {
         $data["secs"] = strtotime(date("Y-m-d H:i:s")) - strtotime($row["message_time"]);
         if ($row["user_from"] > 0) {
-            $name = mysqli_fetch_row(mysqli_query($conn, "SELECT user_viewedname FROM user WHERE user_id = " . $row["user_from"]));
-            $data["mess"] = $name . " says: " . $row["user_message"];
+            $name = mysqli_fetch_row(mysqli_query($conn, "SELECT user_viewedname FROM user WHERE user_id = " . $row["user_from"]))[0];
+            $data["mess"] = $name . " berkata: " . $row["user_message"];
         } else {
             $data["mess"] = $row["user_message"];
         }
@@ -725,4 +732,13 @@ function havemessage($conn)
 {
     $id = $_POST["id"];
     echo mysqli_fetch_row(mysqli_query($conn, "SELECT count(*) FROM user_message WHERE user_to = $id"))[0];
+}
+
+function makemessage($conn)
+{
+    $idasal = $_POST["idasal"];
+    $idtuju = $_POST["idtuju"];
+    $msg = $_POST["msg"];
+    mysqli_query($conn, "INSERT INTO user_message (user_message,user_from, user_to,message_time) VALUES ('$msg',$idasal, $idtuju,'" . date("Y-m-d H:i:s") . "')");
+    echo "Pesan berhasil dikirim";
 }
