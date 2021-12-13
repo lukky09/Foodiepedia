@@ -67,7 +67,7 @@ public class DetailResepActivity extends AppCompatActivity {
                         String listBahan = "";
                         for (int i = 0; i < jar.length(); i++) {
                             JSONObject job = jar.getJSONObject(i);
-                            String Bahan = job.getString("bahan_nama") + " - " + job.getInt("qty");
+                            String Bahan = job.getString("bahan_nama") + " - " + job.getString("qty");
                             listBahan += Bahan + "\n";
                         }
                         binding.tvListBahan.setText(listBahan);
@@ -112,8 +112,14 @@ public class DetailResepActivity extends AppCompatActivity {
                                 isfavorite = true;
                                 optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_favorite_24));
                             }
-                            if (job.getInt("fol") == 1) isfollowing = true;
-                            else isfollowing = false;
+                            if (job.getInt("fol") == 1) {
+                                isfollowing = true;
+                                binding.btnfollow.setText("Unfollow");
+                            }
+                            else{
+                                isfollowing = false;
+                                binding.btnfollow.setText("follow");
+                            }
                             rating = job.getInt("rat");
                             binding.ratingBar.setRating(rating);
                         } catch (JSONException e) {
@@ -266,8 +272,10 @@ public class DetailResepActivity extends AppCompatActivity {
                 response -> {
                     if (response.equals("1")) {
                         isfollowing = true;
+                        binding.btnfollow.setText("Unfollow");
                     } else {
                         isfollowing = false;
+                        binding.btnfollow.setText("follow");
                     }
                 }, error -> Toast.makeText(DetailResepActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
             @Nullable
