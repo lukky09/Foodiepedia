@@ -1,10 +1,13 @@
 package com.example.foodiepedia.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -83,6 +86,17 @@ public class SearchActivity extends AppCompatActivity {
         RequestQueue rqueue = Volley.newRequestQueue(this);
         rqueue.add(sreq);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.show();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Kembali ke beranda");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        finish();
+        return super.onOptionsItemSelected(item);
     }
 
     public void search(View view) {

@@ -74,26 +74,31 @@ public class MainActivity extends AppCompatActivity {
                     Request.Method.POST,
                     getString(R.string.url),
                     response -> {
-                        int iduser,isadmin;
+                        int iduser,isadmin,ban;
                         String msg;
                         try {
                             JSONObject job = new JSONObject(response);
                             iduser = job.getInt("userid");
                             msg = job.getString("message");
+                            ban = job.getInt("ban");
                             if (iduser > 0) {
                                 isadmin = job.getInt("isadmin");
                                 if (isadmin == 1) {
                                     Intent i = new Intent(MainActivity.this, AdminHomeActivity.class);
                                     startActivity(i);
                                 } else {
-                                    SharedPreferences sharedPref = this.getSharedPreferences("setting",this.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPref.edit();
-                                    editor.putInt("id",iduser);
-                                    editor.apply();
-                                    Intent i = new Intent(MainActivity.this, UserHomeActivity.class);
-                                    i.putExtra("id",iduser);
-                                    startActivity(i);
-                                    finish();
+                                    if(ban == 0) {
+                                        SharedPreferences sharedPref = this.getSharedPreferences("setting", this.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPref.edit();
+                                        editor.putInt("id", iduser);
+                                        editor.apply();
+                                        Intent i = new Intent(MainActivity.this, UserHomeActivity.class);
+                                        i.putExtra("id", iduser);
+                                        startActivity(i);
+                                        finish();
+                                    }else{
+                                        Toast.makeText(this, "Anda telah di-ban dari Foodiepedia, silahkan Hubungi Admin", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                                 binding.etloginusername.setText("");
                                 binding.etloginpassword.setText("");

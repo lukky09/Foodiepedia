@@ -163,7 +163,6 @@ public class DetailResepActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Toast.makeText(getApplicationContext(), isfavorite + "", Toast.LENGTH_SHORT).show();
         if (item.getItemId() == R.id.optFav) {
             if (isfavorite) {
                 optFav.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_favorite_border_24));
@@ -177,13 +176,11 @@ public class DetailResepActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.optMsg) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-            alert.setTitle("Request Bahan");
-            alert.setMessage("Nanti bahan akan diaccept oleh admin");
-
+            alert.setTitle("Kirim Pesan");
             final EditText input = new EditText(this);
             alert.setView(input);
 
-            alert.setPositiveButton("Request", new DialogInterface.OnClickListener() {
+            alert.setPositiveButton("Send", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String in = input.getText().toString().trim();
                     if (in.length() == 0) {

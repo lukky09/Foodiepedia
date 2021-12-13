@@ -141,6 +141,7 @@ function login($conn)
             $response["userid"] = $result[0];
             $response["message"] = "Login Berhasil!";
             $response["isadmin"] = $result[4];
+            $response["ban"] = $result[5];
         } else {
             $response["userid"] = -1;
             $response["message"] = "Password Salah";

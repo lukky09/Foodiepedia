@@ -41,7 +41,6 @@ public class SearchResultActivity extends AppCompatActivity {
                 i.putExtra("u",curruser);
                 i.putExtra("r",r);
                 startActivity(i);
-                finish();
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(this));
